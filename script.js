@@ -1,4 +1,3 @@
-console.log('Happy developing ✨')
 
 const Book = ( Name , Author , Pages , Publisher , Rating , img ) => {
     return {
@@ -63,7 +62,7 @@ const Library = ( () => {
         });
         const addBookCard = document.createElement("div");
            addBookCard.className = "book-card add-book-card";
-           addBookCard.innerHTML = `<img src="addBook.jpg" alt="AddBook" class="book-cover"><h3>Add New Book</h3>`;
+           addBookCard.innerHTML = `<img src="" alt="AddBook" class="book-cover"><h3>Add New Book</h3>`;
            bookContainer.appendChild(addBookCard);
      }
      
@@ -77,32 +76,83 @@ const Library = ( () => {
     
 }) ();
 
+// make an onclick event for search button
+const searchResult = document.getElementById("search-button") ;
+searchResult.addEventListener("click", () => {
+    const searchInput = document.getElementById("search-input").value;
+    const results = searchBook(searchInput);
+    const resultContainer = document.getElementById("books");
+
+    // Clear previous results
+    resultContainer.innerHTML = '';
+
+    if (typeof results === "string") {
+        resultContainer.textContent = results; // No books found
+    } else {
+        results.forEach(book => {
+            const bookCard = document.createElement("div");
+            bookCard.className = "book-card";
+            bookCard.innerHTML = `
+                <img src="${book.img}" alt="${book.Name}" class="book-cover">
+                <h3>${book.Name}</h3>
+                <p>Author: ${book.Author}</p>
+                <p>Pages: ${book.Pages}</p>
+                <p>Publisher: ${book.Publisher}</p>
+                <p>Rating: ${book.Rating}</p>
+            `;
+            resultContainer.appendChild(bookCard);
+            console.log(resultContainer);
+        });
+    }
+});
+const searchBook = (input) =>{
+    const books = Library.getBooks();
+    const inputTokens = input.toLowerCase().split(" ");
+    return bestMatchedBooks(books, inputTokens);
+}
+const bestMatchedBooks = (books, inputTokens) => {
+    const matchedBooks = books.filter(book => {
+        return inputTokens.every(token => {
+            return book.Name.toLowerCase().includes(token) || book.Author.toLowerCase().includes(token);
+        });
+    });
+
+    if (matchedBooks.length === 0) {
+        return "No books found";
+    }
+    return matchedBooks;
+}
+
 
 // Initialize the library and
-Library.addBook("The Great Gatsby", "F. Scott Fitzgerald", 180, "Scribner", 4.5, "http://googleusercontent.com/image_collection/image_retrieval/5856020322431860813_0");
-Library.addBook("1984", "George Orwell", 328, "Secker & Warburg", 4.8, "http://googleusercontent.com/image_collection/image_retrieval/7589560682955808539_0");
-Library.addBook("To Kill a Mockingbird", "Harper Lee", 281, "J.B. Lippincott & Co.", 4.9, "http://googleusercontent.com/image_collection/image_retrieval/7102426850065276785_0");
-Library.addBook("Pride and Prejudice", "Jane Austen", 279, "T. Egerton", 4.6, "http://googleusercontent.com/image_collection/image_retrieval/6422828293282302087_0");
-Library.addBook("The Lord of the Rings", "J.R.R. Tolkien", 1178, "Allen & Unwin", 4.9, "http://googleusercontent.com/image_collection/image_retrieval/2196081143383736092_0");
-Library.addBook("The Hobbit", "J.R.R. Tolkien", 310, "George Allen & Unwin", 4.7, "http://googleusercontent.com/image_collection/image_retrieval/15001351508373698191_0");
-Library.addBook("One Hundred Years of Solitude", "Gabriel Garcia Marquez", 417, "Harper & Row", 4.6, "http://googleusercontent.com/image_collection/image_retrieval/8165941025364512132_0");
-Library.addBook("Moby Dick", "Herman Melville", 635, "Richard Bentley", 4.3, "http://googleusercontent.com/image_collection/image_retrieval/879477944724224253_0");
-Library.addBook("War and Peace", "Leo Tolstoy", 1225, "The Russian Messenger", 4.5, "http://googleusercontent.com/image_collection/image_retrieval/6360474793476985420_0");
-Library.addBook("The Catcher in the Rye", "J.D. Salinger", 224, "Little, Brown and Company", 4.2, "http://googleusercontent.com/image_collection/image_retrieval/209514540363611822_0");
-Library.addBook("The Chronicles of Narnia", "C.S. Lewis", 767, "Geoffrey Bles", 4.8, "http://googleusercontent.com/image_collection/image_retrieval/11824147719835079830_0");
-Library.addBook("Don Quixote", "Miguel de Cervantes", 863, "Francisco de Robles", 4.4, "http://googleusercontent.com/image_collection/image_retrieval/4589067183751314871_0");
-Library.addBook("Ulysses", "James Joyce", 730, "Sylvia Beach", 4.1, "http://googleusercontent.com/image_collection/image_retrieval/525566337020827441_0");
-Library.addBook("The Odyssey", "Homer", 541, "N/A (Ancient)", 4.7, "http://googleusercontent.com/image_collection/image_retrieval/1819600579533339911_0");
-Library.addBook("The Divine Comedy", "Dante Alighieri", 798, "N/A (14th Century)", 4.6, "http://googleusercontent.com/image_collection/image_retrieval/4876434037591304120_0");
-Library.addBook("The Brothers Karamazov", "Fyodor Dostoevsky", 824, "The Russian Messenger", 4.8, "http://googleusercontent.com/image_collection/image_retrieval/15646230030258146669_0");
-Library.addBook("Crime and Punishment", "Fyodor Dostoevsky", 671, "The Russian Messenger", 4.7, "http://googleusercontent.com/image_collection/image_retrieval/6602197219990425542_0");
-Library.addBook("Wuthering Heights", "Emily Bronte", 416, "Thomas Cautley Newby", 4.3, "http://googleusercontent.com/image_collection/image_retrieval/9497534410069699277_0");
-Library.addBook("Jane Eyre", "Charlotte Bronte", 500, "Smith, Elder & Co.", 4.5, "http://googleusercontent.com/image_collection/image_retrieval/7210283547778485867_0");
-Library.addBook("The Adventures of Huckleberry Finn", "Mark Twain", 366, "Chatto & Windus", 4.4, "http://googleusercontent.com/image_collection/image_retrieval/9879706356427164186_0");
-Library.addBook("The Old Man and the Sea", "Ernest Hemingway", 127, "Charles Scribner's Sons", 4.6, "http://googleusercontent.com/image_collection/image_retrieval/13946418257072768733_0");
-Library.addBook("Frankenstein", "Mary Shelley", 280, "Lackington, Hughes, Harding, Mavor & Jones", 4.5, "http://googleusercontent.com/image_collection/image_retrieval/16274870210431814214_0");
-Library.addBook("Alice's Adventures in Wonderland", "Lewis Carroll", 200, "Macmillan", 4.7, "http://googleusercontent.com/image_collection/image_retrieval/2987183572083454324_0");
-Library.addBook("The Picture of Dorian Gray", "Oscar Wilde", 254, "Lippincott's Monthly Magazine", 4.6, "http://googleusercontent.com/image_collection/image_retrieval/10086699941633811128_0");
+// Note: Using 'null' as a placeholder for pageCount and rating, as this data was not in the source table.
+// Format: Library.addBook(title, author, pageCount, publisher, rating, imageUrl);
+
+Library.addBook("The Great Gatsby", "F. Scott Fitzgerald", null, "Charles Scribner's Sons", null, "https://upload.wikimedia.org/wikipedia/commons/a/a0/The_Great_Gatsby_Cover_1925_Retouched.jpg");
+Library.addBook("1984", "George Orwell", null, "Secker & Warburg", null, "https://commons.wikimedia.org/wiki/File:1984_first_edition_cover.jpg");
+Library.addBook("To Kill a Mockingbird", "Harper Lee", null, "J.B. Lippincott & Co.", null, "https://commons.wikimedia.org/wiki/File:To_Kill_a_Mockingbird_(first_edition_cover).jpg");
+Library.addBook("Pride and Prejudice", "Jane Austen", null, "T. Egerton, Whitehall", null, "https://commons.wikimedia.org/wiki/File:Pride_and_Prejudice_title_page.jpg");
+Library.addBook("The Lord of the Rings", "J.R.R. Tolkien", null, "Allen & Unwin", null, "https://www.tolkienbooks.us/lotr/uk/hc/a-u-1954/the-fellowship-of-the-ring-1954");
+Library.addBook("The Hobbit", "J.R.R. Tolkien", null, "George Allen & Unwin", null, "https://commons.wikimedia.org/wiki/File:The_Hobbit_first_edition_cover.jpg");
+Library.addBook("One Hundred Years of Solitude", "Gabriel Garcia Marquez", null, "Harper & Row", null, "https://lithub.com/100-covers-of-gabriel-garcia-marquezs-one-hundred-years-of-solitude/");
+Library.addBook("Moby Dick", "Herman Melville", null, "Harper & Brothers", null, "https://www.raptisrarebooks.com/product/moby-dick-or-the-whale-herman-melville-first-edition-rare/");
+Library.addBook("War and Peace", "Leo Tolstoy", null, "William S. Gottsberger", null, "https://www.abebooks.com/servlet/BookDetailsPL?bi=30973415136");
+Library.addBook("The Catcher in the Rye", "J.D. Salinger", null, "Little, Brown and Company", null, "https://commons.wikimedia.org/wiki/File:The_Catcher_in_the_Rye_(1951,_first_edition_cover).jpg");
+Library.addBook("The Chronicles of Narnia", "C.S. Lewis", null, "Geoffrey Bles", null, "https://en.wikipedia.org/wiki/File:The_Lion,_the_Witch_and_the_Wardrobe_cover.gif");
+Library.addBook("Don Quixote", "Miguel de Cervantes", null, "Francisco de Robles", null, "https://commons.wikimedia.org/wiki/File:Don_Quijote_de_la_Mancha,_1605.jpg");
+Library.addBook("Ulysses", "James Joyce", null, "Shakespeare and Company", null, "https://commons.wikimedia.org/wiki/File:Ulysses-cover.jpg");
+Library.addBook("The Odyssey", "Homer", null, "Demetrios Chalkokondyles", null, "https://commons.wikimedia.org/wiki/File:Homer_editio_princeps_1488.jpg");
+Library.addBook("The Divine Comedy", "Dante Alighieri", null, "Nicolaus Laurentii", null, "https://commons.wikimedia.org/wiki/File:Dante_Landino_1481_Inferno_I.jpg");
+Library.addBook("The Brothers Karamazov", "Fyodor Dostoevsky", null, "William Heinemann", null, "https://www.baumanrarebooks.com/rare-books/dostoevsky-fyodor/brothers-karamazov/113692.aspx");
+Library.addBook("Crime and Punishment", "Fyodor Dostoevsky", null, "Vizetelly & Co.", null, "https://www.classiceditions.com/crime-and-punishment-first-english-edition-unique-binding-by-jamie-kamph/");
+Library.addBook("Wuthering Heights", "Emily Brontë", null, "Thomas Cautley Newby", null, "https://www.bl.uk/collection-items/first-edition-of-emily-brontes-wuthering-heights-and-anne-brontes-agnes-grey");
+Library.addBook("Jane Eyre", "Charlotte Brontë", null, "Smith, Elder & Co.", null, "https://www.bl.uk/collection-items/first-edition-of-jane-eyre");
+Library.addBook("The Adventures of Huckleberry Finn", "Mark Twain", null, "Charles L. Webster and Co.", null, "https://commons.wikimedia.org/wiki/File:Huckleberry_Finn_book.JPG");
+Library.addBook("The Old Man and the Sea", "Ernest Hemingway", null, "Charles Scribner's Sons", null, "https://www.raptisrarebooks.com/product/the-old-man-and-the-sea-ernest-hemingway-first-edition-signed/");
+Library.addBook("Frankenstein", "Mary Shelley", null, "Lackington, Hughes, Harding, Mavor, & Jones", null, "https://commons.wikimedia.org/wiki/File:Frankenstein_1818_edition_title_page.jpg");
+Library.addBook("Alice's Adventures in Wonderland", "Lewis Carroll", null, "Macmillan", null, "https://commons.wikimedia.org/wiki/File:Alices_Adventures_in_Wonderland_by_Lewis_Carroll_and_John_Tenniel_-Title_page-_1866.jpg");
+Library.addBook("The Picture of Dorian Gray", "Oscar Wilde", null, "Ward, Lock and Co.", null, "https://www.bl.uk/collection-items/the-picture-of-dorian-gray-first-edition");
+
 Library.render();
 // Render the initial books
 // enough books to test rendering
