@@ -1,0 +1,75 @@
+body{
+    background-color: darkslategrey;
+}
+.navbar-header{
+    display: flex;
+    align-items: center;
+}
+.navbar{
+    position: fixed !important;
+    top: 0 !important;
+    left: 0;
+    width: 100%;
+    z-index: 1000 !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color : palegreen;
+}
+
+.logo{
+    /* class for logo img but it should be in rem or em bcz i want it for all things and not only fixed for my device */
+    width: 4rem; /* Adjust size as needed */
+    height: auto; /* Maintain aspect ratio */
+    border-radius:50%;
+}
+
+.content{
+    /* adding margin (in em or rem)  so that navbar dont consume some content*/
+    background-color: aliceblue;
+    padding-top: 2rem; /* Prevents navbar from overlapping content ;  as logo img is in 4 classes (class inside class)  the 4 rem of logo img is equ of 2 rem of content ? */
+}
+.welcome-section{
+    background-color: tan;
+}
+
+.books{
+    display: grid;
+    grid-template-columns: repeat(3 , 1fr);
+    gap: 1rem;
+    padding: 0.5rem;
+    padding-bottom: 10px;
+}
+
+
+.book-card{
+    border-radius: 9%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: coral;
+}
+.add-book-card{
+    border-radius: 9%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: lightblue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.book-cover{
+    float: left;
+    margin: 10px;
+    border-radius:3%;
+    border : 2px solid Highlight ;
+}
+
+.footer-container{
+    bottom: 0 !important;
+    left: 0 !important ;
+    width: 100%;
+    position: sticky ;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color : mediumslateblue;
+}

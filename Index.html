@@ -2,9 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Library</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
+    <header class="navbar-header">
+        <nav class="navbar" id="navbar" >
+               <a href="Index.html" > <img src="library.png" alt="logo.img" class="logo"> </a>
+               <a href="Books.html">Books</a>
+               <a href="Authors.html">Authors</a>
+               <a href="Genres.html">Genres</a>
+               <a href="Publishers.html">Publishers</a>
+               <a href="Contacts.html">Contacts</a>
+               <a href="SignUp.html" > SignUp </a>
+
+            <search class="search-bar">
+                <input type="text" placeholder="Search...">
+                <button type="submit">Search</button>
+            </search>
+        </nav>
+    </header>
+
+    <main class="content" >
+        <section class="welcome-section" id="welcome-section">
+            <h1> Library Project </h1>
+            <h2>Welcome to the Library</h2>
+            <h2>About the Library</h2>
+            <p>Welcome to our library! Here you can find a wide range of books, authors, genres, and more. Whether you're looking for the latest bestsellers or classic literature, we have something for everyone.</p>
+            <p>Explore our collection and discover new reads today!</p>
+        </section>
+
+        <div class="books" id="books"> </div>
+
+    </main>
+
+    <footer class="footer-container" >
+        <p>&copy; 2025 Library Project. All rights reserved.</p>
+        <p>Contact us at: <a href="Contacts.html">Contact Page</a></p>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
+
 </html>
