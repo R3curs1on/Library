@@ -73,3 +73,7 @@ body{
     align-items: center;
     background-color : mediumslateblue;
 }
+
+.category-row {
+    margin-bottom: 2rem;
+}

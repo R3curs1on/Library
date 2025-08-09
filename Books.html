@@ -29,7 +29,7 @@
             <h1> Library Project </h1>
         </section>
 
-        <div class="books" id="Allbooks"> </div>
+        <div class="books" id="books"> </div>
     </main>
 
     <footer class="footer-container" >
@@ -39,5 +39,10 @@
 
 
     <script src="script.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            Library.render();
+        });
+    </script>
 </body>
 </html>

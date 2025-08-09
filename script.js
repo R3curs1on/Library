@@ -1,4 +1,3 @@
-
 const Book = ( Name , Author , Pages , Publisher , Rating , img ) => {
     return {
         Name,
@@ -22,89 +21,121 @@ const Library = ( () => {
         return BooksArray;
     }
     
-    const deleteBook = (name) =>{
-        if(searchBook(name) != -1) {
-            BooksArray.splice(searchBook(name), 1);
+    const deleteBook = (Name) => {
+        const bookIndex = BooksArray.findIndex(book => book.Name === Name);
+        if (bookIndex !== -1) {
+            BooksArray.splice(bookIndex, 1);
+            render(); // Re-render the library after deletion
+        } else {
+            console.error("Book not found for deletion:", Name);
         }
     }
-    
-    const searchBook = (name) =>{
-        let index = -1;
-        for (let i = 0; i < BooksArray.length; i++) {
-            if (BooksArray[i].Name == name){
-                index = i;
-                break;
-            }
-        }
-        return index
-    }
-    
+
      const render = () =>{
         // use div block with id "book" to render books
          // use bookArray to get books 
          // use grids for arranging books (flexbox or grid (more recommended) of 3 columns ) ; thus for each card/cell keep height fixed (e.g. 200px) and width fixed (e.g. 150px) for img/cover if any 
         const bookContainer = document.getElementById("books");
-         // clear previous content && by default make add one block for adding new book
-        bookContainer.innerHTML = '';
+        if (!bookContainer) {
+            return; // Do nothing if the container doesn't exist on the current page
+        }
+        bookContainer.innerHTML = '';  // clear previous content && by default make add one block for adding new book
         BooksArray.forEach((book) => {
             const bookCard = document.createElement("div");
             bookCard.className = "book-card";
+            bookCard.id = book.Name;  // Set the id to the book's name for easy deletion
             bookCard.innerHTML = `
-                   
                 <img src="${book.img}" alt="${book.Name}"  class="book-cover">
                 <h3>${book.Name}</h3>
                 <p>Author: ${book.Author}</p>
                 <p>Pages: ${book.Pages}</p>
                 <p>Publisher: ${book.Publisher}</p>
                 <p>Rating: ${book.Rating}</p>
+                <button class="delete-button">Delete</button>
             `;
+            bookCard.querySelector('.delete-button').addEventListener('click', () => {
+                deleteBook(book.Name);
+            });
             bookContainer.appendChild(bookCard);
         });
+        
         const addBookCard = document.createElement("div");
            addBookCard.className = "book-card add-book-card";
+           addBookCard.id = "add-book";
            addBookCard.innerHTML = `<img src="" alt="AddBook" class="book-cover"><h3>Add New Book</h3>`;
            bookContainer.appendChild(addBookCard);
+           
+        const addBookButton = document.getElementById("add-book");
+        addBookButton.addEventListener("click" , () => {
+            const bookName = prompt("Enter Book Name:");
+            const bookAuthor = prompt("Enter Author Name:");
+            
+            let bookPages = Number(prompt("Enter Number of Pages:"));
+            while (isNaN(Number(bookPages)) || Number(bookPages) <= 0) {
+                bookPages = prompt("Enter Number of Pages (must be a positive number):");
+            }
+            
+            const bookPublisher = prompt("Enter Publisher Name:");
+            
+            let bookRating = Number(prompt("Enter Book Rating:"));
+            while (Number(bookRating) > 5 || Number(bookRating) < 0 || isNaN(Number(bookRating))) {
+                bookRating = prompt("Enter Book Rating (0-5):");
+            }
+            
+            const bookImg = prompt("Enter Image URL:");
+
+            if (bookName && bookAuthor && bookPages && bookPublisher && bookRating || bookImg) {
+                addBook(bookName, bookAuthor, bookPages, bookPublisher, bookRating, bookImg);
+                render(); // Re-render the library to show the new book
+            } else {
+                alert("Please fill in all fields.");
+            }
+        })
      }
      
     return {
         addBook,
         getBooks,
         deleteBook,
-        searchBook,
         render
     };
     
 }) ();
 
+
 // make an onclick event for search button
 const searchResult = document.getElementById("search-button") ;
-searchResult.addEventListener("click", () => {
-    const searchInput = document.getElementById("search-input").value;
-    const results = searchBook(searchInput);
-    const resultContainer = document.getElementById("books");
+if (searchResult) {
+    searchResult.addEventListener("click", () => {
+        const searchInput = document.getElementById("search-input").value;
+        const results = searchBook(searchInput);
+        const resultContainer = document.getElementById("books");
 
-    // Clear previous results
-    resultContainer.innerHTML = '';
+        // Clear previous results
+        resultContainer.innerHTML = '';
 
-    if (typeof results === "string") {
-        resultContainer.textContent = results; // No books found
-    } else {
-        results.forEach(book => {
-            const bookCard = document.createElement("div");
-            bookCard.className = "book-card";
-            bookCard.innerHTML = `
+        if (typeof results === "string") {
+            resultContainer.textContent = results; // No books found
+        } else {
+            results.forEach(book => {
+                const bookCard = document.createElement("div");
+                bookCard.className = "book-card";
+                bookCard.innerHTML = `
                 <img src="${book.img}" alt="${book.Name}" class="book-cover">
                 <h3>${book.Name}</h3>
                 <p>Author: ${book.Author}</p>
                 <p>Pages: ${book.Pages}</p>
                 <p>Publisher: ${book.Publisher}</p>
                 <p>Rating: ${book.Rating}</p>
+                <button class="delete-button" onclick="Library.deleteBook('${book.Name}')">Delete</button>
             `;
-            resultContainer.appendChild(bookCard);
-            console.log(resultContainer);
-        });
-    }
-});
+                resultContainer.appendChild(bookCard);
+            });
+        }
+    });
+
+}
+
 const searchBook = (input) =>{
     const books = Library.getBooks();
     const inputTokens = input.toLowerCase().split(" ");
