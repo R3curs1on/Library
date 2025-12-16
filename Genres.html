@@ -9,25 +9,29 @@
 <body>
     <header class="navbar-header">
         <nav class="navbar" id="navbar" >
-            <a href="Index.html" > <img src="library.png" alt="logo.img" class="logo"> </a>
+            <a href="Index.html" > <img src="images/library.png" alt="logo.img" class="logo"> </a>
             <a href="Books.html">Books</a>
-            <a href="Authors.html">Authors/Publisher</a>
+            <a href="Publishers.html">Authors/Publisher</a>
             <a href="Genres.html">Genres</a>
             <a href="Contacts.html">Contacts</a>
-            <a href="SignUp.html" > SignUp </a>
-            <search class="search-bar">
-                <input type="text" placeholder="Search...">
-                <button type="submit">Search</button>
+            <a href="Login.html" > Login </a>
+            <search class="search-bar" id="search-bar">
+                <input type="text"   placeholder="Search..." id="search-input">
+                <button type="submit" id="search-button">Search</button>
             </search>
         </nav>
     </header>
 
     <main class="content" >
         <section class="welcome-section" id="welcome-section">
-            <h1> Library Project </h1>
+            <h1> Books By Genre </h1>
         </section>
+        <div id="serachResults">
 
-        <div class="books" id="booksGenere"> </div>
+        </div>
+
+        <div  id="booksGenere"> </div>
+
     </main>
 
     <footer class="footer-container" >

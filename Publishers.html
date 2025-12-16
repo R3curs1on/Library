@@ -3,32 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Publisher</title>
+    <title>Authors/Publishers</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header class="navbar-header">
         <nav class="navbar" id="navbar" >
-            <a href="Index.html" > <img src="library.png" alt="logo.img" class="logo"> </a>
+            <a href="Index.html" > <img src="images/library.png" alt="logo.img" class="logo"> </a>
             <a href="Books.html">Books</a>
-            <a href="Authors.html">Authors/Publisher</a>
+            <a href="Publishers.html">Authors/Publisher</a>
             <a href="Genres.html">Genres</a>
             <a href="Contacts.html">Contacts</a>
-            <a href="SignUp.html" > SignUp </a>
+            <a href="Login.html" > Login </a>
 
-            <search class="search-bar">
-                <input type="text" placeholder="Search...">
-                <button type="submit">Search</button>
+            <search class="search-bar" id="search-bar">
+                <input type="text"   placeholder="Search..." id="search-input">
+                <button type="submit" id="search-button">Search</button>
             </search>
         </nav>
     </header>
 
     <main class="content" >
         <section class="welcome-section" id="welcome-section">
-            <h1> Library Project </h1>
+            <h1> Books by Authors </h1>
         </section>
 
-        <div class="books" id="booksPulisher"> </div>
+        <div  id="serachResults">
+
+        </div>
+
+        <div class="Auhorbooks" id="Authorbooks"> </div>
+
     </main>
 
 
@@ -36,8 +41,7 @@
         <p>&copy; 2025 Library Project. All rights reserved.</p>
         <p>Contact us at: <a href="Contacts.html">Contact Page</a></p>
     </footer>
-z
-<script src="script.js"></script>
 
+<script src="script.js"></script>
 </body>
 </html>

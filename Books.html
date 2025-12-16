@@ -10,16 +10,16 @@
 <body>
     <header class="navbar-header">
         <nav class="navbar" id="navbar" >
-            <a href="Index.html" > <img src="library.png" alt="logo.img" class="logo"> </a>
+            <a href="Index.html" > <img src="images/library.png" alt="logo.img" class="logo"> </a>
             <a href="Books.html">Books</a>
-            <a href="Authors.html">Authors/Publisher</a>
+            <a href="Publishers.html">Authors/Publisher</a>
             <a href="Genres.html">Genres</a>
             <a href="Contacts.html">Contacts</a>
-            <a href="SignUp.html" > SignUp </a>
+            <a href="Login.html" > Login </a>
 
-            <search class="search-bar">
-                <input type="text" placeholder="Search...">
-                <button type="submit">Search</button>
+            <search class="search-bar" id="search-bar">
+                <input type="text"   placeholder="Search..." id="search-input">
+                <button type="submit" id="search-button">Search</button>
             </search>
         </nav>
     </header>
@@ -29,7 +29,12 @@
             <h1> Library Project </h1>
         </section>
 
+        <div   id="serachResults">
+
+        </div>
+
         <div class="books" id="books"> </div>
+
     </main>
 
     <footer class="footer-container" >
@@ -39,10 +44,6 @@
 
 
     <script src="script.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            Library.render();
-        });
-    </script>
+
 </body>
 </html>

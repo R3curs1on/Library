@@ -1,5 +1,5 @@
 body{
-    background-color: darkslategrey;
+    background-color: #da9a2d;
 }
 .navbar-header{
     display: flex;
@@ -14,7 +14,7 @@ body{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color : palegreen;
+    background-color : #f9c05c;
 }
 
 .logo{
@@ -26,27 +26,121 @@ body{
 
 .content{
     /* adding margin (in em or rem)  so that navbar dont consume some content*/
-    background-color: aliceblue;
     padding-top: 2rem; /* Prevents navbar from overlapping content ;  as logo img is in 4 classes (class inside class)  the 4 rem of logo img is equ of 2 rem of content ? */
+    margin: 1rem;
+    background-color:  #ffa104;
+
 }
 .welcome-section{
-    background-color: tan;
+    /*background-color:  #ffa104;*/
+}
+
+
+.text{
+    margin: 0.15rem 0; /* tighten vertical spacing */
+    font-family: cursive !important;
+    font-size: 1rem !important; /* slightly smaller */
+    color: black !important;
 }
 
 .books{
     display: grid;
     grid-template-columns: repeat(3 , 1fr);
-    gap: 1rem;
+    gap: 0.5rem;
     padding: 0.5rem;
     padding-bottom: 10px;
+    justify-items: center;
+    background-color: black;
 }
 
+
+.authors-view {
+    display: block;
+    padding: 1rem;
+}
+
+.author-row {
+    margin-bottom: 2rem;
+}
+
+.author-row h3 {
+    border-bottom: 2px solid palegreen;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.author-books-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem 0.5rem;
+}
+
+.books-genere-container{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem 0.5rem;
+}
+
+.author-book-flex{
+    display: flex;
+    gap: 1rem;
+    padding: 1rem 0.5rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 1rem; /* Hides the scrollbar on some OS if tight */
+}
+
+/* 1. Target the card ONLY when it's inside the scrolling section */
+.author-book-flex .author-book-card {
+    /* STOPS the shrinking. Essential. */
+    flex-shrink: 0;
+
+    /* Reset width to a fixed size for the scroll strip */
+    /* You can use px (160px) or viewport width (40vw) */
+    width: 20%;
+
+    /* Optional: Resets the margin centering if you had it */
+    margin: 0;
+    scroll-snap-align: start;
+}
+
+
+.author-book-card{
+    border-radius: 9%;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    background-color: coral;
+    width: 33%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.25rem;
+}
+/* Make book cards in horizontal scroll view a bit smaller */
+
+/*.author-book-cover{*/
+/*    width: auto;*/
+/*    height: auto;*/
+/*    border-radius: 5%;*/
+/*    border : 2px solid Highlight ;*/
+
+/*}*/
 
 .book-card{
     border-radius: 9%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
     background-color: coral;
+    width: 90%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.25rem;
 }
+
 .add-book-card{
     border-radius: 9%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -57,10 +151,38 @@ body{
 }
 
 .book-cover{
-    float: left;
-    margin: 10px;
-    border-radius:3%;
-    border : 2px solid Highlight ;
+    width: 150px;
+    height: 200px;
+    object-fit: cover;
+    margin: 0; /* remove extra space */
+    border-radius: 3%;
+    border: 2px solid Highlight;
+}
+
+.authors-display {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    padding: 1rem;
+}
+
+.author-book-cover{
+    width: 150px;
+    height: 200px;
+    object-fit: cover; /* keep aspect ratio within bounds */
+    border-radius: 5%;
+    border: 2px solid Highlight;
+}
+
+.authors-display h3 {
+    margin-top: 0;
+    border-bottom: 2px solid palegreen;
+    padding-bottom: 0.5rem;
+}
+
+.book-item {
+    padding: 0.25rem 0;
 }
 
 .footer-container{
@@ -71,9 +193,38 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color : mediumslateblue;
+    background-color : #c48002;
 }
 
 .category-row {
     margin-bottom: 2rem;
 }
+
+.login-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    align-content: center;
+    background-color: gold;
+    width: 33%;
+    margin: 0 auto;
+}
+.login-form{
+    background-color: hotpink;
+}
+
+.signup-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    align-content: center;
+    background-color: gold;
+    width: 33%;
+    margin: 0 auto;
+}
+.signup-form{
+    background-color: hotpink;
+}
+

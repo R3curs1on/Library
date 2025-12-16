@@ -5,30 +5,94 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Contacts</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        .SocialMedia {
+            text-align: center;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            margin: 20px;
+        }
+        .SocialMedia a {
+            display: inline-block;
+            margin: 10px;
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+        .SocialMedia a:hover {
+            color: #007bff;
+        }
+        .Facebook , .Instagram, .Twitter, .LinkedIn, .YouTube, .OnlyFans , .Mails {
+            text-align: center;
+            margin: 10px;
+            background-color: #007bff;
+        }
+    </style>
+
 </head>
 <body>
     <header class="navbar-header">
         <nav class="navbar" id="navbar" >
-            <a href="Index.html" > <img src="library.png" alt="logo.img" class="logo"> </a>
+            <a href="Index.html" > <img src="images/library.png" alt="logo.img" class="logo"> </a>
             <a href="Books.html">Books</a>
-            <a href="Authors.html">Authors/Publisher</a>
+            <a href="Publishers.html">Authors/Publisher</a>
             <a href="Genres.html">Genres</a>
             <a href="Contacts.html">Contacts</a>
-            <a href="SignUp.html" > SignUp </a>
-            <search class="search-bar">
-                <input type="text" placeholder="Search...">
-                <button type="submit">Search</button>
+            <a href="Login.html" > Login  </a>
+            <search class="search-bar" id="search-bar" style="visibility: hidden;">
+                <input type="text"   placeholder="Search..." id="search-input">
+                <button type="submit" id="search-button">Search</button>
             </search>
         </nav>
     </header>
 
     <main class="content" >
         <section class="welcome-section" id="welcome-section">
-            <h1> Library Project </h1>
+
         </section>
 
-<!--        <div class="books" id="books"> </div>-->
-        <h3> contacts </h3>
+        <h2 > This project was build to help for fellow readers to have an really smooth and preferred experience than hassle </h2>
+        <h2> if you found it helpful we love to hear about us </h2>
+        <h2> Also all criticism is accepted and tried to solved ASAP </h2>
+        <h2> Thank you </h2>
+
+        <h2>If you dont mind you can Follow/connect us on Social Media</h2>
+
+        <section class="SocialMedia" id="SocialMedia">
+
+            <div class="Instagram">
+                <img src="Instagram.png" alt="Instagram.img" class="logo">
+                <a href="https://www.instagram.com" target="_blank">Instagram</a>
+                <p>@duck_man</p>
+            </div>
+            <div class="Facebook">
+                <img src="Facebook.png" alt="Facebook.img" class="logo">
+                <a href="https://www.facebook.com" target="_blank">Facebook</a>
+                <p>facebook.com/duck </p>
+            </div>
+            <div class="Twitter">
+                <img src="Twitter.png" alt="Twitter.img" class="logo">
+                <a href="https://www.twitter.com" target="_blank">Twitter</a>
+                <p>@duck_man</p>
+            </div>
+            <div class="LinkedIn">
+                <img src="LinkedIn.png" alt="LinkedIn.img" class="logo">
+                <a href="https://www.linkedin.com" target="_blank">LinkedIn</a>
+                <p>linkedin.com/in/
+            </div>
+            <div class="YouTube">
+                <img src="YouTube.png" alt="YouTube.img" class="logo">
+                <a href="https://www.youtube.com" target="_blank">YouTube</a>
+                <p>youtube.com/duck
+            </div>
+
+            <div class="Mails" >
+                <img src="Mails.png" alt="Mails.img" class="logo">
+                <a href="lib@gmail.com" target="_blank">Email Us</a>
+                <p> Email </p>
+            </div>
+        </section>
+
 
     </main>
 
