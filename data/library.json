@@ -1,0 +1,68 @@
+{
+  "users": [
+    {
+      "username": "admin",
+      "password": "adminPasswd",
+      "role": "admin"
+    }
+  ],
+  "books": [
+    {
+      "id": "great-gatsby",
+      "Name": "The Great Gatsby",
+      "Author": "F. Scott Fitzgerald",
+      "Pages": 180,
+      "Publisher": "Charles Scribner's Sons",
+      "Rating": 4.2,
+      "img": "images/The Great Gatsby.jpg",
+      "Category": "Classic",
+      "Description": "A Jazz Age novel about class, obsession, and the illusion of reinvention.",
+      "AvailableCopies": 4,
+      "TotalCopies": 6,
+      "Tags": ["classic", "wealth", "jazz age", "american fiction"]
+    },
+    {
+      "id": "nineteen-eighty-four",
+      "Name": "1984",
+      "Author": "George Orwell",
+      "Pages": 328,
+      "Publisher": "Secker & Warburg",
+      "Rating": 4.5,
+      "img": "images/1984.jpg",
+      "Category": "Dystopian",
+      "Description": "A surveillance-state classic centered on authoritarian control and language.",
+      "AvailableCopies": 2,
+      "TotalCopies": 5,
+      "Tags": ["dystopian", "politics", "surveillance", "classic"]
+    },
+    {
+      "id": "to-kill-a-mockingbird",
+      "Name": "To Kill a Mockingbird",
+      "Author": "Harper Lee",
+      "Pages": 281,
+      "Publisher": "J.B. Lippincott & Co.",
+      "Rating": 4.3,
+      "img": "images/To Kill a Mockingbird.jpg",
+      "Category": "Classic",
+      "Description": "A courtroom and coming-of-age story about justice, race, and moral courage.",
+      "AvailableCopies": 3,
+      "TotalCopies": 4,
+      "Tags": ["justice", "classic", "law", "coming of age"]
+    },
+    {
+      "id": "pride-and-prejudice",
+      "Name": "Pride and Prejudice",
+      "Author": "Jane Austen",
+      "Pages": 432,
+      "Publisher": "T. Egerton, Whitehall",
+      "Rating": 4.4,
+      "img": "images/Pride and Prejudice.jpg",
+      "Category": "Romance",
+      "Description": "A social novel of wit, class tension, and emotional intelligence.",
+      "AvailableCopies": 5,
+      "TotalCopies": 6,
+      "Tags": ["romance", "classics", "society", "wit"]
+    }
+  ],
+  "updatedAt": "2026-03-27T00:00:00.000Z"
+}

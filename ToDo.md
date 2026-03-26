@@ -1,5 +1,5 @@
-add backend
+add backend JS ONLY
+add python (maybe) for search optimization and suggestion using TFIDF 
 
-add python
-add search optimization and suggestion using TFIDF
+books recommendation algorithm ( machine learning )
 

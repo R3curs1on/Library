@@ -141,6 +141,32 @@ body{
     padding: 0.25rem;
 }
 
+.search-results-panel{
+    margin: 1rem 0;
+    padding: 1rem;
+    background-color: #ffd27e;
+}
+
+.suggestions-row{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.suggestion-chip{
+    border: 1px solid #000;
+    background: #fff0c2;
+    padding: 0.4rem 0.8rem;
+    cursor: pointer;
+}
+
+.delete-button{
+    margin-top: 0.5rem;
+    padding: 0.35rem 0.8rem;
+    cursor: pointer;
+}
+
 .add-book-card{
     border-radius: 9%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -227,4 +253,3 @@ body{
 .signup-form{
     background-color: hotpink;
 }
-

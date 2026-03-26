@@ -1,10 +1,16 @@
 {
   "name": "Library",
   "version": "1.0.0",
-  "description": "",
-  "main": "script.js",
+  "description": "Library app with Express backend and TF-IDF search",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "node server.js",
+    "start": "node server.js",
+    "test": "node --check server.js && node --check script.js"
   },
-  "private": true
+  "private": true,
+  "dependencies": {
+    "express": "^4.21.2",
+    "mongodb": "^6.18.0"
+  }
 }
