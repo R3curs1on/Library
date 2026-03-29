@@ -1,82 +1,63 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>SignUp</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign Up</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header class="navbar-header">
-        <nav class="navbar" id="navbar" >
-            <a href="Index.html" > <img src="images/library.png" alt="logo.img" class="logo"> </a>
-            <a href="Books.html">Books</a>
-            <a href="Publishers.html">Authors/Publisher</a>
-            <a href="Genres.html">Genres</a>
-            <a href="Contacts.html">Contacts</a>
-            <a href="Login.html" > Login </a>
+  <header class="navbar-header">
+    <nav class="navbar" id="navbar">
+      <a href="Index.html"><img src="images/library.png" alt="Library logo" class="logo"></a>
+      <div class="nav-links">
+        <a href="Books.html">Books</a>
+        <a href="Publishers.html">Authors/Publisher</a>
+        <a href="Genres.html">Genres</a>
+        <a href="Contacts.html">Contacts</a>
+        <a href="Login.html">Login</a>
+      </div>
+      <div class="nav-actions">
+        <search class="search-bar" id="search-bar" style="visibility: hidden;">
+          <input type="text" placeholder="Search by title, author, or tag" id="search-input">
+          <button type="submit" id="search-button">Search</button>
+        </search>
+      </div>
+    </nav>
+  </header>
 
-            <search class="search-bar" id="search-bar" style="visibility: hidden;" >
-                <input type="text"   placeholder="Search..." id="search-input">
-                <button type="submit" id="search-button">Search</button>
-            </search>
-        </nav>
-    </header>
+  <main class="content">
+    <section class="welcome-section" id="welcome-section">
+      <h1 class="page-title">Create an account</h1>
+      <p class="lede">Join the library to save your preferences and access admin tools.</p>
+    </section>
 
-    <main class="content" >
-        <section class="welcome-section" id="welcome-section">
-            <h1> Sign up / Log In  </h1>
-        </section>
-
-
-        <div id="decide-Auth" >
-
-<!--            <div class="login-container" id="login-container" >-->
-<!--                            <h1> Login Page </h1>-->
-<!--                            <div class="login-form">-->
-<!--                                <input type="text" placeholder="Username or Email" id="username" required>-->
-<!--                            </div>-->
-<!--                            <div class="login-form">-->
-<!--                                <input type="password" placeholder="Password" id="password" required>-->
-<!--                            </div>-->
-<!--                            <div class="login-form">-->
-<!--                                <button id="login-button"> <h3>Login</h3> </button>-->
-<!--                            </div>-->
-
-<!--            </div>-->
-
-            <div class="signup-container" id="signup-container" >
-                <h1> Signup Page </h1>
-                <div class="signup-form">
-                    <input type="text" placeholder="Username or Email" id="usernameSignup" required>
-                </div>
-                <div class="signup-form">
-                    <input type="password" placeholder="Password" id="passwordSignup" required>
-                </div>
-                <div class="signup-form">
-                    <button id="Signup-button"> <h3> Enter </h3> </button>
-                </div>
-            </div>
-
-            <h3 class="content" style="text-align: center" id="toggle-auth"> Already have an account ?
-                <button id="login-auth-button"> Log In </button>
-            </h3>
-
+    <div id="decide-Auth">
+      <div class="signup-container" id="signup-container">
+        <h2>Get started</h2>
+        <div class="signup-form">
+          <input type="text" placeholder="Username" id="usernameSignup" required>
         </div>
+        <div class="signup-form">
+          <input type="password" placeholder="Password" id="passwordSignup" required>
+        </div>
+        <div class="signup-form">
+          <button id="Signup-button" class="primary-button">Create account</button>
+        </div>
+      </div>
 
+      <div class="auth-toggle" id="toggle-auth">
+        <p class="text">Already have an account?</p>
+        <button class="secondary-button" id="login-auth-button">Log in</button>
+      </div>
+    </div>
+  </main>
 
+  <footer class="footer-container">
+    <p>&copy; 2025 Library Project. All rights reserved.</p>
+    <p>Contact us at: <a href="Contacts.html">Contact Page</a></p>
+  </footer>
 
-
-
-
-
-    </main>
-
-    <footer class="footer-container" >
-        <p>&copy; 2025 Library Project. All rights reserved.</p>
-        <p>Contact us at: <a href="Contacts.html">Contact Page</a></p>
-    </footer>
-
-    <script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>

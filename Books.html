@@ -1,49 +1,91 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Books</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Books</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-    <header class="navbar-header">
-        <nav class="navbar" id="navbar" >
-            <a href="Index.html" > <img src="images/library.png" alt="logo.img" class="logo"> </a>
-            <a href="Books.html">Books</a>
-            <a href="Publishers.html">Authors/Publisher</a>
-            <a href="Genres.html">Genres</a>
-            <a href="Contacts.html">Contacts</a>
-            <a href="Login.html" > Login </a>
+  <header class="navbar-header">
+    <nav class="navbar" id="navbar">
+      <a href="Index.html"><img src="images/library.png" alt="Library logo" class="logo"></a>
+      <div class="nav-links">
+        <a href="Books.html">Books</a>
+        <a href="Publishers.html">Authors/Publisher</a>
+        <a href="Genres.html">Genres</a>
+        <a href="Contacts.html">Contacts</a>
+        <a href="Login.html" data-auth="login">Login</a>
+      </div>
+      <div class="nav-actions">
+        <search class="search-bar" id="search-bar">
+          <input type="text" placeholder="Search by title, author, or tag" id="search-input">
+          <button type="submit" id="search-button">Search</button>
+        </search>
+        <span class="user-badge" data-auth="user"></span>
+        <button class="secondary-button logout-button" id="logout-button" data-auth="logout" type="button">Logout</button>
+      </div>
+    </nav>
+  </header>
 
-            <search class="search-bar" id="search-bar">
-                <input type="text"   placeholder="Search..." id="search-input">
-                <button type="submit" id="search-button">Search</button>
-            </search>
-        </nav>
-    </header>
+  <main class="content">
+    <section class="welcome-section" id="welcome-section">
+      <h1 class="page-title">All books</h1>
+      <p class="lede">Every title in the library. Use search to narrow by author, genre, or mood.</p>
+    </section>
 
-    <main class="content" >
-        <section class="welcome-section" id="welcome-section">
-            <h1> Library Project </h1>
-        </section>
-
-        <div   id="serachResults">
-
+    <div class="filter-panel" id="filter-panel">
+      <div class="filter-header">
+        <h2 class="section-title">Filters</h2>
+        <button class="secondary-button" id="filter-clear" type="button">Clear filters</button>
+      </div>
+      <div class="filter-row">
+        <div class="filter-group">
+          <label for="filter-author">Author</label>
+          <select id="filter-author">
+            <option value="">All authors</option>
+          </select>
         </div>
+        <div class="filter-group">
+          <label for="filter-genre">Genre</label>
+          <select id="filter-genre">
+            <option value="">All genres</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="filter-rating">Minimum rating</label>
+          <select id="filter-rating">
+            <option value="">Any rating</option>
+            <option value="4">4+</option>
+            <option value="3">3+</option>
+            <option value="2">2+</option>
+            <option value="1">1+</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="filter-availability">Availability</label>
+          <select id="filter-availability">
+            <option value="">All</option>
+            <option value="available">Available now</option>
+            <option value="unavailable">Checked out</option>
+          </select>
+        </div>
+      </div>
+      <p class="filter-count" id="filter-count"></p>
+    </div>
 
-        <div class="books" id="books"> </div>
+    <div id="serachResults"></div>
 
-    </main>
+    <h2 class="section-title">Collection</h2>
+    <div class="books" id="books"></div>
+    <div class="pagination" id="pagination"></div>
+  </main>
 
-    <footer class="footer-container" >
-        <p>&copy; 2025 Library Project. All rights reserved.</p>
-        <p>Contact us at: <a href="Contacts.html">Contact Page</a></p>
-    </footer>
+  <footer class="footer-container">
+    <p>&copy; 2025 Library Project. All rights reserved.</p>
+    <p>Contact us at: <a href="Contacts.html">Contact Page</a></p>
+  </footer>
 
-
-    <script src="script.js"></script>
-
+  <script src="script.js"></script>
 </body>
 </html>

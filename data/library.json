@@ -2,8 +2,13 @@
   "users": [
     {
       "username": "admin",
-      "password": "adminPasswd",
+      "password": "$2a$10$8eETpWjk7pSbUZLrG90Q9urn3eg9fG2HCEPxfrw1ZgiWbYOo1ertK",
       "role": "admin"
+    },
+    {
+      "username": "abc",
+      "password": "$2a$10$PNKl3lQF.yFRFXWaxgXvdeIsDFlb0se7Fdc.nT338GRCbqIasjRm.",
+      "role": "user"
     }
   ],
   "books": [
@@ -19,7 +24,12 @@
       "Description": "A Jazz Age novel about class, obsession, and the illusion of reinvention.",
       "AvailableCopies": 4,
       "TotalCopies": 6,
-      "Tags": ["classic", "wealth", "jazz age", "american fiction"]
+      "Tags": [
+        "classic",
+        "wealth",
+        "jazz age",
+        "american fiction"
+      ]
     },
     {
       "id": "nineteen-eighty-four",
@@ -33,7 +43,12 @@
       "Description": "A surveillance-state classic centered on authoritarian control and language.",
       "AvailableCopies": 2,
       "TotalCopies": 5,
-      "Tags": ["dystopian", "politics", "surveillance", "classic"]
+      "Tags": [
+        "dystopian",
+        "politics",
+        "surveillance",
+        "classic"
+      ]
     },
     {
       "id": "to-kill-a-mockingbird",
@@ -47,7 +62,12 @@
       "Description": "A courtroom and coming-of-age story about justice, race, and moral courage.",
       "AvailableCopies": 3,
       "TotalCopies": 4,
-      "Tags": ["justice", "classic", "law", "coming of age"]
+      "Tags": [
+        "justice",
+        "classic",
+        "law",
+        "coming of age"
+      ]
     },
     {
       "id": "pride-and-prejudice",
@@ -61,8 +81,19 @@
       "Description": "A social novel of wit, class tension, and emotional intelligence.",
       "AvailableCopies": 5,
       "TotalCopies": 6,
-      "Tags": ["romance", "classics", "society", "wit"]
+      "Tags": [
+        "romance",
+        "classics",
+        "society",
+        "wit"
+      ]
     }
   ],
-  "updatedAt": "2026-03-27T00:00:00.000Z"
+  "updatedAt": "2026-03-29T11:31:27.340Z",
+  "sessions": {
+    "292bece3-e9ab-45fb-845e-9a30ec83dddb": {
+      "username": "admin",
+      "createdAt": "2026-03-29T11:31:27.339Z"
+    }
+  }
 }

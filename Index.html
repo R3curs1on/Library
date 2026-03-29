@@ -1,56 +1,54 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Library</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Library</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+  <header class="navbar-header">
+    <nav class="navbar" id="navbar">
+      <a href="Index.html"><img src="images/library.png" alt="Library logo" class="logo"></a>
+      <div class="nav-links">
+        <a href="Books.html">Books</a>
+        <a href="Publishers.html">Authors/Publisher</a>
+        <a href="Genres.html">Genres</a>
+        <a href="Contacts.html">Contacts</a>
+        <a href="Login.html" data-auth="login">Login</a>
+      </div>
+      <div class="nav-actions">
+        <search class="search-bar" id="search-bar">
+          <input type="text" placeholder="Search by title, author, or tag" id="search-input">
+          <button type="submit" id="search-button">Search</button>
+        </search>
+        <span class="user-badge" data-auth="user"></span>
+        <button class="secondary-button logout-button" id="logout-button" data-auth="logout" type="button">Logout</button>
+      </div>
+    </nav>
+  </header>
 
-    <header class="navbar-header">
-        <nav class="navbar" id="navbar" >
-               <a href="Index.html" > <img src="images/library.png" alt="logo.img" class="logo"> </a>
-               <a href="Books.html">Books</a>
-               <a href="Publishers.html">Authors/Publisher</a>
-               <a href="Genres.html">Genres</a>
-               <a href="Contacts.html">Contacts</a>
-               <a href="Login.html" > Login </a>
+  <main class="content">
+    <section class="welcome-section" id="welcome-section">
+      <h1 class="page-title">A quieter way to explore books.</h1>
+      <p class="lede">Browse a curated catalog, discover new authors, and search by mood, genre, or tag. Built to feel calm, focused, and easy to navigate.</p>
+      <div class="hero-actions">
+        <a class="primary-button" href="Books.html">Browse collection</a>
+        <a class="secondary-button" href="Genres.html">Explore genres</a>
+      </div>
+    </section>
 
-            <search class="search-bar" id="search-bar">
-                <input type="text"   placeholder="Search..." id="search-input">
-                <button type="submit" id="search-button">Search</button>
-            </search>
-        </nav>
-    </header>
+    <div id="serachResults"></div>
 
-    <main class="content" >
-        <section class="welcome-section" id="welcome-section">
-            <h1 class="text"> Library Project </h1>
-            <p class="text">Welcome to our library! Here you can find a wide range of books, authors, genres, and more. Whether you're looking for the latest bestsellers or classic literature, we have something for everyone.</p>
-            <p class="text" >Explore our collection and discover new reads today!</p>
-        </section>
+    <h2 class="section-title">Featured books</h2>
+    <div class="books" id="books"></div>
+  </main>
 
-<!--        <h1> To do next : add Book feature completeness ; add parameter read/unread ; write logic rating & code to update rating if read / give review rating ; search feature improvement (all htmlpages) ; signup logic handling and access ; add one more feature / parameter - book load yes/no due date remainders transactions etc ;   </h1>-->
+  <footer class="footer-container">
+    <p>&copy; 2025 Library Project. All rights reserved.</p>
+    <p>Contact us at: <a href="Contacts.html">Contact Page</a></p>
+  </footer>
 
-        <div   id="serachResults">
-
-        </div>
-
-        <div class="books" id="books">
-
-        </div>
-
-
-
-    </main>
-
-    <footer class="footer-container" >
-        <p>&copy; 2025 Library Project. All rights reserved.</p>
-        <p>Contact us at: <a href="Contacts.html">Contact Page</a></p>
-    </footer>
-
-    <script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
-
 </html>

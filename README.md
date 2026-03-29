@@ -1,13 +1,32 @@
 # Library
-A  Web dev Project of Library using HTML Tailwind JS Node Express And MongoDB
+A calm, minimal library catalog built with HTML, CSS, JavaScript, Express, Node.js, and MongoDB. Includes TF-IDF powered search with smart suggestions and a JSON fallback when MongoDB is not configured.
 
-To Do -
-ADD Node and Express
-Add persistent Storage of books ie MongoDB
-Add Hashing for Login 
-Replace all CSS by Tailwind
+## Features
+- Browse books, authors, and genres
+- TF-IDF search + suggestion chips
+- Session-based auth with password hashing (bcrypt)
+- Admin add/edit/delete books with a modal form UI
+- Pagination + filters for author, genre, rating, and availability
+- MongoDB persistence with JSON fallback
+- Clean, responsive UI
 
+## Getting started
+```bash
+npm install
+npm run dev
+```
+Open `http://127.0.0.1:3000`.
 
-Extra - Add Recomment feature to serach option based on ML ( TFIDF or other )  
-Add reviews section
-Add Renting System and Due Reminder 
+## Configuration
+- `MONGODB_URI`: MongoDB connection string (optional)
+- `MONGODB_DB_NAME`: database name (defaults to `library_app`)
+
+If `MONGODB_URI` is not set, the app uses `data/library.json` for storage.
+
+## Demo admin account
+Local JSON storage seeds an admin user:
+- Username: `admin`
+- Password: `adminPasswd`
+
+## Notes
+If you open the HTML files directly (file://), API calls will fail. Run the server and open the localhost URL instead.

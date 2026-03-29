@@ -1,106 +1,79 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Contacts</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        .SocialMedia {
-            text-align: center;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            margin: 20px;
-        }
-        .SocialMedia a {
-            display: inline-block;
-            margin: 10px;
-            text-decoration: none;
-            color: #333;
-            font-weight: bold;
-        }
-        .SocialMedia a:hover {
-            color: #007bff;
-        }
-        .Facebook , .Instagram, .Twitter, .LinkedIn, .YouTube, .OnlyFans , .Mails {
-            text-align: center;
-            margin: 10px;
-            background-color: #007bff;
-        }
-    </style>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contacts</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header class="navbar-header">
-        <nav class="navbar" id="navbar" >
-            <a href="Index.html" > <img src="images/library.png" alt="logo.img" class="logo"> </a>
-            <a href="Books.html">Books</a>
-            <a href="Publishers.html">Authors/Publisher</a>
-            <a href="Genres.html">Genres</a>
-            <a href="Contacts.html">Contacts</a>
-            <a href="Login.html" > Login  </a>
-            <search class="search-bar" id="search-bar" style="visibility: hidden;">
-                <input type="text"   placeholder="Search..." id="search-input">
-                <button type="submit" id="search-button">Search</button>
-            </search>
-        </nav>
-    </header>
+  <header class="navbar-header">
+    <nav class="navbar" id="navbar">
+      <a href="Index.html"><img src="images/library.png" alt="Library logo" class="logo"></a>
+      <div class="nav-links">
+        <a href="Books.html">Books</a>
+        <a href="Publishers.html">Authors/Publisher</a>
+        <a href="Genres.html">Genres</a>
+        <a href="Contacts.html">Contacts</a>
+        <a href="Login.html" data-auth="login">Login</a>
+      </div>
+      <div class="nav-actions">
+        <search class="search-bar" id="search-bar" style="visibility: hidden;">
+          <input type="text" placeholder="Search by title, author, or tag" id="search-input">
+          <button type="submit" id="search-button">Search</button>
+        </search>
+        <span class="user-badge" data-auth="user"></span>
+        <button class="secondary-button logout-button" id="logout-button" data-auth="logout" type="button">Logout</button>
+      </div>
+    </nav>
+  </header>
 
-    <main class="content" >
-        <section class="welcome-section" id="welcome-section">
+  <main class="content">
+    <section class="welcome-section" id="welcome-section">
+      <h1 class="page-title">Stay in touch</h1>
+      <p class="lede">This project is built to give readers a calmer, more focused experience. Feedback, critiques, and collaboration ideas are welcome.</p>
+    </section>
 
-        </section>
+    <h2 class="section-title">Connect with us</h2>
+    <div class="social-grid" id="SocialMedia">
+      <div class="social-card">
+        <h3>Instagram</h3>
+        <span>@duck_man</span>
+        <a class="secondary-button" href="https://www.instagram.com" target="_blank" rel="noreferrer">Visit</a>
+      </div>
+      <div class="social-card">
+        <h3>Facebook</h3>
+        <span>facebook.com/duck</span>
+        <a class="secondary-button" href="https://www.facebook.com" target="_blank" rel="noreferrer">Visit</a>
+      </div>
+      <div class="social-card">
+        <h3>Twitter</h3>
+        <span>@duck_man</span>
+        <a class="secondary-button" href="https://www.twitter.com" target="_blank" rel="noreferrer">Visit</a>
+      </div>
+      <div class="social-card">
+        <h3>LinkedIn</h3>
+        <span>linkedin.com/in/</span>
+        <a class="secondary-button" href="https://www.linkedin.com" target="_blank" rel="noreferrer">Visit</a>
+      </div>
+      <div class="social-card">
+        <h3>YouTube</h3>
+        <span>youtube.com/duck</span>
+        <a class="secondary-button" href="https://www.youtube.com" target="_blank" rel="noreferrer">Visit</a>
+      </div>
+      <div class="social-card">
+        <h3>Email</h3>
+        <span>lib@gmail.com</span>
+        <a class="secondary-button" href="mailto:lib@gmail.com">Email us</a>
+      </div>
+    </div>
+  </main>
 
-        <h2 > This project was build to help for fellow readers to have an really smooth and preferred experience than hassle </h2>
-        <h2> if you found it helpful we love to hear about us </h2>
-        <h2> Also all criticism is accepted and tried to solved ASAP </h2>
-        <h2> Thank you </h2>
+  <footer class="footer-container">
+    <p>&copy; 2025 Library Project. All rights reserved.</p>
+    <p>Contact us at: <a href="Contacts.html">Contact Page</a></p>
+  </footer>
 
-        <h2>If you dont mind you can Follow/connect us on Social Media</h2>
-
-        <section class="SocialMedia" id="SocialMedia">
-
-            <div class="Instagram">
-                <img src="Instagram.png" alt="Instagram.img" class="logo">
-                <a href="https://www.instagram.com" target="_blank">Instagram</a>
-                <p>@duck_man</p>
-            </div>
-            <div class="Facebook">
-                <img src="Facebook.png" alt="Facebook.img" class="logo">
-                <a href="https://www.facebook.com" target="_blank">Facebook</a>
-                <p>facebook.com/duck </p>
-            </div>
-            <div class="Twitter">
-                <img src="Twitter.png" alt="Twitter.img" class="logo">
-                <a href="https://www.twitter.com" target="_blank">Twitter</a>
-                <p>@duck_man</p>
-            </div>
-            <div class="LinkedIn">
-                <img src="LinkedIn.png" alt="LinkedIn.img" class="logo">
-                <a href="https://www.linkedin.com" target="_blank">LinkedIn</a>
-                <p>linkedin.com/in/
-            </div>
-            <div class="YouTube">
-                <img src="YouTube.png" alt="YouTube.img" class="logo">
-                <a href="https://www.youtube.com" target="_blank">YouTube</a>
-                <p>youtube.com/duck
-            </div>
-
-            <div class="Mails" >
-                <img src="Mails.png" alt="Mails.img" class="logo">
-                <a href="lib@gmail.com" target="_blank">Email Us</a>
-                <p> Email </p>
-            </div>
-        </section>
-
-
-    </main>
-
-    <footer class="footer-container" >
-        <p>&copy; 2025 Library Project. All rights reserved.</p>
-        <p>Contact us at: <a href="Contacts.html">Contact Page</a></p>
-    </footer>
-
-    <script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>

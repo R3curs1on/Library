@@ -1,255 +1,649 @@
-body{
-    background-color: #da9a2d;
-}
-.navbar-header{
-    display: flex;
-    align-items: center;
-}
-.navbar{
-    position: fixed !important;
-    top: 0 !important;
-    left: 0;
-    width: 100%;
-    z-index: 1000 !important;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color : #f9c05c;
+:root {
+  --bg: #f4f1ea;
+  --bg-accent: #e7efe9;
+  --surface: #fffdf8;
+  --surface-strong: #f7f2e9;
+  --ink: #2c2b27;
+  --muted: #6e6a63;
+  --accent: #7f9a8f;
+  --accent-strong: #5f7f74;
+  --accent-soft: #e3ede7;
+  --border: #e2dacf;
+  --shadow: 0 16px 40px rgba(45, 42, 33, 0.08);
+  --radius: 18px;
+  --content-width: 1120px;
 }
 
-.logo{
-    /* class for logo img but it should be in rem or em bcz i want it for all things and not only fixed for my device */
-    width: 4rem; /* Adjust size as needed */
-    height: auto; /* Maintain aspect ratio */
-    border-radius:50%;
+* {
+  box-sizing: border-box;
 }
 
-.content{
-    /* adding margin (in em or rem)  so that navbar dont consume some content*/
-    padding-top: 2rem; /* Prevents navbar from overlapping content ;  as logo img is in 4 classes (class inside class)  the 4 rem of logo img is equ of 2 rem of content ? */
-    margin: 1rem;
-    background-color:  #ffa104;
-
-}
-.welcome-section{
-    /*background-color:  #ffa104;*/
-}
-
-
-.text{
-    margin: 0.15rem 0; /* tighten vertical spacing */
-    font-family: cursive !important;
-    font-size: 1rem !important; /* slightly smaller */
-    color: black !important;
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--ink);
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Verdana", sans-serif;
+  background: radial-gradient(circle at top left, #eef4ee 0%, transparent 55%),
+    radial-gradient(circle at 20% 80%, #f3ece0 0%, transparent 55%),
+    var(--bg);
+  line-height: 1.6;
 }
 
-.books{
-    display: grid;
-    grid-template-columns: repeat(3 , 1fr);
-    gap: 0.5rem;
-    padding: 0.5rem;
-    padding-bottom: 10px;
-    justify-items: center;
-    background-color: black;
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
-
-.authors-view {
-    display: block;
-    padding: 1rem;
+a:hover {
+  color: var(--accent-strong);
 }
 
-.author-row {
-    margin-bottom: 2rem;
+img {
+  max-width: 100%;
+  display: block;
 }
 
-.author-row h3 {
-    border-bottom: 2px solid palegreen;
-    padding-bottom: 0.5rem;
-    margin-bottom: 1rem;
+.navbar-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(244, 241, 234, 0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+
+.navbar {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: 0.9rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+}
+
+.logo {
+  width: 2.8rem;
+  height: 2.8rem;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 0.15rem;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.nav-links a {
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.nav-links a:hover {
+  background: var(--accent-soft);
+}
+
+.nav-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.user-badge {
+  font-size: 0.85rem;
+  color: var(--muted);
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  background: var(--surface-strong);
+  border: 1px solid var(--border);
+}
+
+.logout-button {
+  padding: 0.45rem 1rem;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: 0 10px 24px rgba(36, 34, 28, 0.06);
+}
+
+.search-bar input {
+  border: none;
+  outline: none;
+  padding: 0.35rem 0.5rem;
+  background: transparent;
+  font-size: 0.95rem;
+  color: var(--ink);
+  min-width: 160px;
+}
+
+.search-bar button {
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.search-bar button:hover {
+  background: var(--accent-strong);
+}
+
+.content {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+}
+
+.welcome-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  box-shadow: var(--shadow);
+}
+
+.page-title {
+  margin: 0 0 0.8rem;
+  font-family: "Georgia", "Palatino Linotype", "Book Antiqua", serif;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  color: var(--ink);
+}
+
+.lede {
+  font-size: 1.05rem;
+  color: var(--muted);
+  max-width: 60ch;
+}
+
+.hero-actions {
+  margin-top: 1.5rem;
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.primary-button,
+.secondary-button,
+.delete-button,
+#login-button,
+#Signup-button {
+  border: none;
+  border-radius: 999px;
+  padding: 0.5rem 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.primary-button {
+  background: var(--accent);
+  color: #fff;
+}
+
+.primary-button:hover {
+  background: var(--accent-strong);
+}
+
+.secondary-button {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--ink);
+}
+
+.secondary-button:hover {
+  border-color: var(--accent-strong);
+  color: var(--accent-strong);
+}
+
+.section-title {
+  margin: 2rem 0 1rem;
+  font-family: "Georgia", "Palatino Linotype", "Book Antiqua", serif;
+  font-size: 1.5rem;
+}
+
+.filter-panel {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  display: grid;
+  gap: 1rem;
+}
+
+.filter-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.filter-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.filter-group {
+  display: grid;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.filter-group select {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.5rem 0.6rem;
+  background: var(--surface-strong);
+  font-size: 0.95rem;
+}
+
+.filter-count {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.books {
+  margin-top: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.2rem;
+}
+
+.book-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1rem;
+  display: grid;
+  gap: 0.8rem;
+  box-shadow: var(--shadow);
+}
+
+.book-card--compact {
+  flex: 0 0 220px;
+  min-width: 220px;
+}
+
+.image-container {
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--surface-strong);
+}
+
+.book-cover {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+}
+
+.book-card--compact .book-cover {
+  height: 190px;
+}
+
+.book-title {
+  margin: 0;
+  font-family: "Georgia", "Palatino Linotype", "Book Antiqua", serif;
+  font-size: 1.2rem;
+}
+
+.book-body {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.book-author {
+  margin: 0.1rem 0 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.book-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.badge {
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  border: 1px solid #d6e3dc;
+}
+
+.book-detail,
+.book-description {
+  margin: 0.2rem 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.book-description {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.book-card--compact .book-detail,
+.book-card--compact .book-description {
+  display: none;
+}
+
+.search-results-panel {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.suggestions-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.suggestion-chip {
+  border: 1px solid var(--border);
+  background: var(--surface-strong);
+  color: var(--ink);
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.suggestion-chip:hover {
+  border-color: var(--accent-strong);
+  color: var(--accent-strong);
+}
+
+.delete-button {
+  background: #f1dfdb;
+  color: #7e3c32;
+  border: 1px solid #e8c5bf;
+}
+
+.delete-button:hover {
+  background: #e9cfc9;
+}
+
+.add-book-card {
+  border: 1px dashed var(--accent);
+  color: var(--accent-strong);
+  text-align: center;
+  justify-content: center;
+  cursor: pointer;
+  background: var(--surface);
+}
+
+.add-book-card h3 {
+  margin: 0;
+  font-family: "Georgia", "Palatino Linotype", "Book Antiqua", serif;
+}
+
+.card-actions {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
 }
 
 .author-books-container {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding: 1rem 0.5rem;
+  margin-top: 2rem;
 }
 
-.books-genere-container{
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding: 1rem 0.5rem;
+.author-book-flex {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  scroll-snap-type: x mandatory;
 }
 
-.author-book-flex{
-    display: flex;
-    gap: 1rem;
-    padding: 1rem 0.5rem;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scroll-snap-type: x mandatory;
-    padding-bottom: 1rem; /* Hides the scrollbar on some OS if tight */
+.author-book-flex .book-card {
+  scroll-snap-align: start;
 }
 
-/* 1. Target the card ONLY when it's inside the scrolling section */
-.author-book-flex .author-book-card {
-    /* STOPS the shrinking. Essential. */
-    flex-shrink: 0;
-
-    /* Reset width to a fixed size for the scroll strip */
-    /* You can use px (160px) or viewport width (40vw) */
-    width: 20%;
-
-    /* Optional: Resets the margin centering if you had it */
-    margin: 0;
-    scroll-snap-align: start;
+.footer-container {
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  padding: 1.5rem;
+  text-align: center;
+  color: var(--muted);
 }
 
-
-.author-book-card{
-    border-radius: 9%;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-    background-color: coral;
-    width: 33%;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0.25rem;
-}
-/* Make book cards in horizontal scroll view a bit smaller */
-
-/*.author-book-cover{*/
-/*    width: auto;*/
-/*    height: auto;*/
-/*    border-radius: 5%;*/
-/*    border : 2px solid Highlight ;*/
-
-/*}*/
-
-.book-card{
-    border-radius: 9%;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-    background-color: coral;
-    width: 90%;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0.25rem;
+.login-container,
+.signup-container {
+  max-width: 420px;
+  margin: 2rem auto 0;
+  padding: 2rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  display: grid;
+  gap: 1rem;
+  text-align: center;
 }
 
-.search-results-panel{
-    margin: 1rem 0;
-    padding: 1rem;
-    background-color: #ffd27e;
+.login-form,
+.signup-form {
+  display: grid;
+  gap: 0.5rem;
 }
 
-.suggestions-row{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
+.login-form input,
+.signup-form input {
+  padding: 0.6rem 0.8rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  font-size: 0.95rem;
 }
 
-.suggestion-chip{
-    border: 1px solid #000;
-    background: #fff0c2;
-    padding: 0.4rem 0.8rem;
-    cursor: pointer;
+.login-form input:focus,
+.signup-form input:focus {
+  outline: 2px solid rgba(127, 154, 143, 0.35);
+  border-color: var(--accent);
 }
 
-.delete-button{
-    margin-top: 0.5rem;
-    padding: 0.35rem 0.8rem;
-    cursor: pointer;
+.auth-toggle {
+  margin-top: 1.5rem;
+  text-align: center;
 }
 
-.add-book-card{
-    border-radius: 9%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    background-color: lightblue;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.pagination {
+  margin: 2rem 0 0;
+  display: flex;
+  justify-content: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
 }
 
-.book-cover{
-    width: 150px;
-    height: 200px;
-    object-fit: cover;
-    margin: 0; /* remove extra space */
-    border-radius: 3%;
-    border: 2px solid Highlight;
+.page-button {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--ink);
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 0.9rem;
 }
 
-.authors-display {
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    margin-bottom: 1rem;
-    padding: 1rem;
+.page-button.is-active {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent-strong);
 }
 
-.author-book-cover{
-    width: 150px;
-    height: 200px;
-    object-fit: cover; /* keep aspect ratio within bounds */
-    border-radius: 5%;
-    border: 2px solid Highlight;
+.page-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
-.authors-display h3 {
-    margin-top: 0;
-    border-bottom: 2px solid palegreen;
-    padding-bottom: 0.5rem;
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(44, 43, 39, 0.35);
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  z-index: 2000;
 }
 
-.book-item {
-    padding: 0.25rem 0;
+.modal {
+  width: min(520px, 100%);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+  display: grid;
+  gap: 1rem;
 }
 
-.footer-container{
-    bottom: 0 !important;
-    left: 0 !important ;
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.modal-close {
+  border: none;
+  background: transparent;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--muted);
+}
+
+.form-grid {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.form-field {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.form-field input,
+.form-field textarea {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.55rem 0.7rem;
+  font-size: 0.95rem;
+  color: var(--ink);
+  background: var(--surface-strong);
+}
+
+.form-field input:focus,
+.form-field textarea:focus {
+  outline: 2px solid rgba(127, 154, 143, 0.35);
+  border-color: var(--accent);
+}
+
+.input-error {
+  border-color: #c07b6d;
+  outline: 2px solid rgba(192, 123, 109, 0.3);
+}
+
+.field-error {
+  font-size: 0.78rem;
+  color: #7e3c32;
+}
+
+.form-error {
+  margin: 0;
+  color: #7e3c32;
+  font-size: 0.9rem;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.is-hidden {
+  display: none !important;
+}
+
+.social-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.social-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1rem;
+  box-shadow: var(--shadow);
+  display: grid;
+  gap: 0.4rem;
+}
+
+.social-card span {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.text {
+  margin: 0.3rem 0;
+  color: var(--ink);
+}
+
+.highlight {
+  background: #fff2b3;
+  color: inherit;
+  padding: 0 0.15em;
+  border-radius: 0.25em;
+}
+
+@media (max-width: 720px) {
+  .nav-actions {
     width: 100%;
-    position: sticky ;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color : #c48002;
-}
+    justify-content: flex-start;
+  }
 
-.category-row {
-    margin-bottom: 2rem;
-}
+  .search-bar {
+    width: 100%;
+  }
 
-.login-container{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    align-content: center;
-    background-color: gold;
-    width: 33%;
-    margin: 0 auto;
-}
-.login-form{
-    background-color: hotpink;
-}
+  .search-bar input {
+    flex: 1;
+  }
 
-.signup-container{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    align-content: center;
-    background-color: gold;
-    width: 33%;
-    margin: 0 auto;
-}
-.signup-form{
-    background-color: hotpink;
+  .welcome-section {
+    padding: 1.5rem;
+  }
 }
