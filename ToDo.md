@@ -33,3 +33,66 @@
 - Test suite: unit + API tests with coverage reporting.
 - CI pipeline (lint, tests, deploy preview) and Dockerized deploy.
 - Accessibility audit + keyboard navigation for all flows.
+
+
+Library/
+├── backend/
+│   ├── src/
+│   │   ├── config/
+│   │   │   └── db.js
+│   │   │
+│   │   ├── controllers/
+│   │   │   ├── pageController.js
+│   │   │   ├── bookController.js
+│   │   │   └── authController.js
+│   │   │
+│   │   ├── models/
+│   │   │   ├── bookModel.js
+│   │   │   └── userModel.js
+│   │   │
+│   │   ├── routes/
+│   │   │   ├── pageRoutes.js
+│   │   │   ├── bookRoutes.js
+│   │   │   └── authRoutes.js
+│   │   │
+│   │   ├── services/
+│   │   │   └── (keep empty for now)
+│   │   │
+│   │   └── middleware/
+│   │       └── authMiddleware.js
+│   │
+│   └── server.js
+│
+├── views/
+│   ├── pages/
+│   │   ├── index.ejs
+│   │   ├── books.ejs
+│   │   ├── genres.ejs
+│   │   ├── publishers.ejs
+│   │   ├── contacts.ejs
+│   │   ├── login.ejs
+│   │   └── signup.ejs
+│   │
+│   └── partials/
+│       ├── head.ejs
+│       ├── navbar.ejs
+│       └── footer.ejs
+│
+├── public/
+│   ├── css/
+│   │   └── style.css
+│   │
+│   ├── js/
+│   │   ├── main.js
+│   │   └── auth.js
+│   │
+│   └── images/
+│       └── library.png
+│
+├── data/
+│   └── library.json   (fallback, optional)
+│
+├── .env
+├── package.json
+├── package-lock.json
+└── README.md
