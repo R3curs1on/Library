@@ -13,6 +13,16 @@
 ## Next (core)
 - Add loading/empty/error UI states for search and fetches on every view.
 - Add edit-book flow for bulk updates and cover uploads.
+- add EJS templating for server-side rendering of book lists and details.
+- Add user registration and profile management flows.
+- Add book lending workflow (checkout, due dates, return, reminders).
+- Add reviews + ratings with moderation.
+- Add personalized recommendations (collaborative + content-based hybrid).
+- Add search indexing with MongoDB Atlas Search or in-app inverted index.
+- Add observability: structured logs, request tracing, error monitoring.
+- Add test suite: unit + API tests with coverage reporting.
+- Add CI pipeline (lint, tests, deploy preview) and Dockerized deploy.
+- Add accessibility audit + keyboard navigation for all flows.
 
 ## Resume-worthy upgrades
 - Book lending workflow (checkout, due dates, return, reminders).

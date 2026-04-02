@@ -282,6 +282,7 @@ async function loadBooks() {
     const message = error.message || 'Failed to load books.'
     setContainerMessage(booksContainer, message)
     setContainerMessage(document.getElementById('Authorbooks'), message)
+    setContainerMessage(document.getElementById('Publisherbooks'), message)
     setContainerMessage(document.getElementById('booksGenere'), message)
   }
 }
@@ -795,76 +796,61 @@ function renderBooksGrid() {
   }
 }
 
-function renderAuthorGroups() {
-  const container = document.getElementById('Authorbooks')
+function renderGroupedBooks(containerId, getGroupName) {
+  const container = document.getElementById(containerId)
   if (!container) {
     return
   }
 
   container.innerHTML = ''
-  const authorMap = {}
+  const groupedBooks = {}
 
   state.books.forEach((book) => {
-    if (!authorMap[book.Author]) {
-      authorMap[book.Author] = []
+    const groupName = getGroupName(book)
+    if (!groupedBooks[groupName]) {
+      groupedBooks[groupName] = []
     }
-    authorMap[book.Author].push(book)
+    groupedBooks[groupName].push(book)
   })
 
-  Object.keys(authorMap).forEach((author) => {
-    const authorDiv = document.createElement('div')
-    authorDiv.className = 'author-books-container'
-    authorDiv.innerHTML = `<h2 class="section-title">${author}</h2>`
+  Object.keys(groupedBooks)
+    .sort((left, right) => left.localeCompare(right))
+    .forEach((groupName) => {
+      const groupDiv = document.createElement('div')
+      groupDiv.className = 'author-books-container'
+      groupDiv.innerHTML = `<h2 class="section-title">${groupName}</h2>`
 
-    const row = document.createElement('div')
-    row.className = 'author-book-flex'
+      const row = document.createElement('div')
+      row.className = 'author-book-flex'
 
-    authorMap[author].forEach((book) => {
-      row.appendChild(createBookCard(book, true))
+      groupedBooks[groupName].forEach((book) => {
+        row.appendChild(createBookCard(book, true))
+      })
+
+      groupDiv.appendChild(row)
+      container.appendChild(groupDiv)
     })
+}
 
-    authorDiv.appendChild(row)
-    container.appendChild(authorDiv)
-  })
+function renderAuthorGroups() {
+  renderGroupedBooks('Authorbooks', (book) => book.Author || 'Unknown author')
+}
+
+function renderPublisherGroups() {
+  renderGroupedBooks(
+    'Publisherbooks',
+    (book) => book.Publisher || 'Unknown publisher',
+  )
 }
 
 function renderGenreGroups() {
-  const container = document.getElementById('booksGenere')
-  if (!container) {
-    return
-  }
-
-  container.innerHTML = ''
-  const genreMap = {}
-
-  state.books.forEach((book) => {
-    const category = book.Category || 'Uncategorized'
-    if (!genreMap[category]) {
-      genreMap[category] = []
-    }
-    genreMap[category].push(book)
-  })
-
-  Object.keys(genreMap).forEach((category) => {
-    const genreDiv = document.createElement('div')
-    genreDiv.className = 'author-books-container'
-    genreDiv.innerHTML = `<h2 class="section-title">${category}</h2>`
-
-    const row = document.createElement('div')
-    row.className = 'author-book-flex'
-
-    genreMap[category].forEach((book) => {
-      row.appendChild(createBookCard(book, true))
-    })
-
-    genreDiv.appendChild(row)
-    container.appendChild(genreDiv)
-  })
+  renderGroupedBooks('booksGenere', (book) => book.Category || 'Uncategorized')
 }
 
 function renderAllViews() {
   renderBooksGrid()
   renderAuthorGroups()
+  renderPublisherGroups()
   renderGenreGroups()
 }
 

@@ -13,8 +13,8 @@ const {
   isPasswordHashed,
   updateBook,
   updateUserPassword,
-} = require('./lib/store')
-const { searchBooks } = require('./lib/search')
+} = require('../lib/store')
+const { searchBooks } = require('../lib/search')
 
 const app = express()
 const PORT = Number(process.env.PORT) || 3000
