@@ -1,5 +1,2 @@
-.idea/
-trash/
-
-treeStructure.txt
 .env
+.env.example
