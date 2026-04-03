@@ -1,21 +1,27 @@
+require('dotenv').config()
+
 const express = require('express')
 const path = require('node:path')
 const bcrypt = require('bcryptjs')
 const {
+  addBook,
   createSession,
   createUser,
+  deleteBook,
   deleteSession,
   findSession,
   findUser,
   getBooks,
+  initializeStorage,
   isPasswordHashed,
+  pingStorage,
   updateUserPassword,
 } = require('./src/services/libraryStore')
 const { searchBooks } = require('./src/services/searchService')
 
 const app = express()
 const PORT = Number(process.env.PORT) || 3000
-const HOST = process.env.HOST || '127.0.0.1'
+const HOST = process.env.HOST || '0.0.0.0'
 
 app.set('view engine', 'ejs')
 app.set('views', path.join(process.cwd(), 'views'))
@@ -52,6 +58,20 @@ async function requireSession(request, response) {
   }
 
   return { user, token }
+}
+
+async function requireAdmin(request, response) {
+  const session = await requireSession(request, response)
+  if (!session) {
+    return null
+  }
+
+  if (session.user.role !== 'admin') {
+    response.status(403).json({ error: 'Admin access required.' })
+    return null
+  }
+
+  return session.user
 }
 
 app.get('/', async (_request, response) => {
@@ -114,6 +134,37 @@ app.get('/signup', (_request, response) => {
 app.get('/api/books', async (_request, response) => {
   const books = await getBooks()
   response.json({ books })
+})
+
+app.post('/api/books', async (request, response) => {
+  const admin = await requireAdmin(request, response)
+  if (!admin) {
+    return
+  }
+
+  const { book } = request.body || {}
+  if (!book || !book.Name || !book.Author) {
+    response.status(400).json({ error: 'Book name and author are required.' })
+    return
+  }
+
+  const created = await addBook(book)
+  response.status(201).json({ book: created })
+})
+
+app.delete('/api/books/:id', async (request, response) => {
+  const admin = await requireAdmin(request, response)
+  if (!admin) {
+    return
+  }
+
+  const deleted = await deleteBook(request.params.id)
+  if (!deleted) {
+    response.status(404).json({ error: 'Book not found.' })
+    return
+  }
+
+  response.status(204).end()
 })
 
 app.get('/api/search', async (request, response) => {
@@ -200,10 +251,29 @@ app.get('/api/session', async (request, response) => {
   })
 })
 
+app.get('/api/health', async (_request, response) => {
+  try {
+    await pingStorage()
+    response.json({ status: 'ok', storage: 'mongodb' })
+  } catch {
+    response.status(503).json({ status: 'error', storage: 'mongodb' })
+  }
+})
+
+async function startServer() {
+  try {
+    await initializeStorage()
+    app.listen(PORT, HOST, () => {
+      console.log(`Library server running on http://${HOST}:${PORT}`)
+    })
+  } catch (error) {
+    console.error('Failed to start server:', error.message)
+    process.exit(1)
+  }
+}
+
 if (require.main === module) {
-  app.listen(PORT, HOST, () => {
-    console.log(`Library server running on http://${HOST}:${PORT}`)
-  })
+  startServer()
 }
 
 module.exports = app

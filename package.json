@@ -1,16 +1,17 @@
 {
-  "name": "Library",
+  "name": "library",
   "version": "1.0.0",
   "description": "Library app with Express backend and TF-IDF search",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon backend/server.js",
-    "start": "nodemon backend/server.js",
+    "dev": "node --watch backend/server.js",
+    "start": "node backend/server.js",
     "test": "node --check backend/server.js && node --check public/js/main.js && node --check public/js/auth.js"
   },
   "private": true,
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "dotenv": "^17.4.0",
     "ejs": "^5.0.1",
     "express": "^4.21.2",
     "mongodb": "^6.18.0"

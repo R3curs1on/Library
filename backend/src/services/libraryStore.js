@@ -3,68 +3,110 @@ const path = require('node:path')
 const crypto = require('node:crypto')
 const { MongoClient } = require('mongodb')
 
-const DATA_DIR = path.join(process.cwd(), 'data')
-const DATA_FILE = path.join(DATA_DIR, 'library.json')
 const MONGODB_URI = process.env.MONGODB_URI
 const MONGODB_DB_NAME = process.env.MONGODB_DB_NAME || 'library_app'
 const COLLECTION_NAME = 'library_state'
 const DOCUMENT_ID = 'default'
+const SEED_FILE = path.join(process.cwd(), 'data', 'library.json')
 
 let mongoClientPromise
 
-async function ensureDataFile() {
-  await fs.mkdir(DATA_DIR, { recursive: true })
+function getMongoUri() {
+  const uri = process.env.MONGODB_URI || MONGODB_URI
+  if (!uri) {
+    throw new Error('MONGODB_URI is required. Configure it before starting the server.')
+  }
+  return uri
 }
 
-async function readLocalState() {
-  await ensureDataFile()
-  const raw = await fs.readFile(DATA_FILE, 'utf-8')
-  return JSON.parse(raw)
+function getDatabaseName() {
+  return process.env.MONGODB_DB_NAME || MONGODB_DB_NAME
 }
 
-async function writeLocalState(state) {
-  await ensureDataFile()
-  const nextState = {
-    ...state,
+function buildInitialState() {
+  const adminUsername = process.env.ADMIN_USERNAME || 'admin'
+  const adminPassword = process.env.ADMIN_PASSWORD || 'adminPasswd'
+
+  return {
+    users: [
+      {
+        username: adminUsername,
+        password: adminPassword,
+        role: 'admin',
+      },
+    ],
+    books: [],
+    sessions: {},
+    createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   }
-  await fs.writeFile(DATA_FILE, JSON.stringify(nextState, null, 2), 'utf-8')
-  return nextState
 }
 
-function isMongoConfigured() {
-  return Boolean(MONGODB_URI)
+async function readSeedState() {
+  try {
+    const raw = await fs.readFile(SEED_FILE, 'utf-8')
+    const parsed = JSON.parse(raw)
+
+    return {
+      users: Array.isArray(parsed.users) ? parsed.users : [],
+      books: Array.isArray(parsed.books) ? parsed.books : [],
+      sessions: {},
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    }
+  } catch {
+    return buildInitialState()
+  }
+}
+
+async function buildSeedState() {
+  const seedState = await readSeedState()
+  const adminUsername = process.env.ADMIN_USERNAME || 'admin'
+  const adminPassword = process.env.ADMIN_PASSWORD || 'adminPasswd'
+
+  const users = Array.isArray(seedState.users) ? [...seedState.users] : []
+  const hasAdmin = users.some((user) => user.username === adminUsername)
+
+  if (!hasAdmin) {
+    users.unshift({
+      username: adminUsername,
+      password: adminPassword,
+      role: 'admin',
+    })
+  }
+
+  return {
+    ...seedState,
+    users,
+    books: Array.isArray(seedState.books) ? seedState.books : [],
+  }
 }
 
 async function getMongoCollection() {
-  if (!MONGODB_URI) {
-    throw new Error('MONGODB_URI not configured')
-  }
-
   if (!mongoClientPromise) {
-    const client = new MongoClient(MONGODB_URI)
+    const client = new MongoClient(getMongoUri())
     mongoClientPromise = client.connect()
   }
 
   const client = await mongoClientPromise
-  return client.db(MONGODB_DB_NAME).collection(COLLECTION_NAME)
+  return client.db(getDatabaseName()).collection(COLLECTION_NAME)
 }
 
-async function readMongoState() {
+async function readState() {
   const collection = await getMongoCollection()
   const document = await collection.findOne({ _id: DOCUMENT_ID })
 
   if (!document) {
-    const localState = await readLocalState()
-    await collection.insertOne({ _id: DOCUMENT_ID, ...localState })
-    return localState
+    const seedState = await buildSeedState()
+    await collection.insertOne({ _id: DOCUMENT_ID, ...seedState })
+    return seedState
   }
 
   const { _id, ...state } = document
   return state
 }
 
-async function writeMongoState(state) {
+async function writeState(state) {
   const collection = await getMongoCollection()
   const nextState = {
     ...state,
@@ -80,27 +122,47 @@ async function writeMongoState(state) {
   return nextState
 }
 
-async function withStorage(primary, fallback) {
-  if (!isMongoConfigured()) {
-    return fallback()
+async function initializeStorage() {
+  const collection = await getMongoCollection()
+  const document = await collection.findOne({ _id: DOCUMENT_ID })
+
+  if (!document) {
+    const seedState = await buildSeedState()
+    await collection.insertOne({ _id: DOCUMENT_ID, ...seedState })
+    return
   }
 
-  try {
-    return await primary()
-  } catch {
-    return fallback()
+  const seedState = await buildSeedState()
+  const updates = {}
+
+  if (!Array.isArray(document.books) || document.books.length === 0) {
+    updates.books = seedState.books
+  }
+
+  if (!Array.isArray(document.users) || document.users.length === 0) {
+    updates.users = seedState.users
+  } else if (!document.users.some((user) => user.username === (process.env.ADMIN_USERNAME || 'admin'))) {
+    updates.users = [
+      {
+        username: process.env.ADMIN_USERNAME || 'admin',
+        password: process.env.ADMIN_PASSWORD || 'adminPasswd',
+        role: 'admin',
+      },
+      ...document.users,
+    ]
+  }
+
+  if (Object.keys(updates).length > 0) {
+    await collection.updateOne(
+      { _id: DOCUMENT_ID },
+      { $set: { ...updates, updatedAt: new Date().toISOString() } },
+    )
   }
 }
 
-async function readState() {
-  return withStorage(readMongoState, readLocalState)
-}
-
-async function writeState(state) {
-  return withStorage(
-    () => writeMongoState(state),
-    () => writeLocalState(state),
-  )
+async function pingStorage() {
+  const collection = await getMongoCollection()
+  await collection.findOne({ _id: DOCUMENT_ID }, { projection: { _id: 1 } })
 }
 
 function normalizeBook(book) {
@@ -199,6 +261,26 @@ async function saveBooks(books) {
   })
 }
 
+async function addBook(book) {
+  const books = await getBooks()
+  const normalized = normalizeBook(book)
+  books.push(normalized)
+  await saveBooks(books)
+  return normalized
+}
+
+async function deleteBook(bookId) {
+  const books = await getBooks()
+  const nextBooks = books.filter((book) => book.id !== bookId)
+
+  if (nextBooks.length === books.length) {
+    return null
+  }
+
+  await saveBooks(nextBooks)
+  return true
+}
+
 async function findUser(username) {
   const users = await getUsers()
   return users.find((user) => user.username === username) || null
@@ -206,10 +288,11 @@ async function findUser(username) {
 
 async function createUser(username, password) {
   const users = await getUsers()
+  const adminUsername = process.env.ADMIN_USERNAME || 'admin'
   const newUser = {
     username,
     password,
-    role: username === 'admin' ? 'admin' : 'user',
+    role: username === adminUsername ? 'admin' : 'user',
   }
   users.push(newUser)
   await saveUsers(users)
@@ -219,15 +302,18 @@ async function createUser(username, password) {
 module.exports = {
   createSession,
   createUser,
+  addBook,
   deleteSession,
+  deleteBook,
   findSession,
   findUser,
   getBooks,
   getSessions,
   getUsers,
-  isMongoConfigured,
+  initializeStorage,
   isPasswordHashed,
   normalizeBook,
+  pingStorage,
   readState,
   saveBooks,
   saveSessions,

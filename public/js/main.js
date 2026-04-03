@@ -1,3 +1,7 @@
+const appState = {
+	session: null,
+}
+
 function getSession() {
 	try {
 		return JSON.parse(localStorage.getItem('librarySession') || 'null')
@@ -9,24 +13,69 @@ function getSession() {
 function setSession(session) {
 	if (session) {
 		localStorage.setItem('librarySession', JSON.stringify(session))
+		appState.session = session
 	} else {
 		localStorage.removeItem('librarySession')
+		appState.session = null
+	}
+}
+
+function isAdmin() {
+	return appState.session?.user?.role === 'admin'
+}
+
+function escapeHtml(value) {
+	return String(value || '')
+		.replace(/&/g, '&amp;')
+		.replace(/</g, '&lt;')
+		.replace(/>/g, '&gt;')
+		.replace(/"/g, '&quot;')
+		.replace(/'/g, '&#39;')
+}
+
+function parseSessionPayload(payload) {
+	if (payload?.user && payload?.token) {
+		return payload
+	}
+
+	const stored = getSession()
+	return stored?.token ? stored : null
+}
+
+async function refreshSession() {
+	const stored = getSession()
+	if (!stored?.token) {
+		appState.session = null
+		return null
+	}
+
+	try {
+		const response = await $.ajax({
+			url: '/api/session',
+			method: 'GET',
+			dataType: 'json',
+			headers: {
+				Authorization: `Bearer ${stored.token}`,
+			},
+		})
+		appState.session = {
+			...stored,
+			user: response.user,
+		}
+		setSession(appState.session)
+		return appState.session
+	} catch {
+		setSession(null)
+		return null
 	}
 }
 
 function renderBookCard(book) {
 	const image = book.img || 'https://placehold.co/300x420?text=No+Image'
 	const tags = Array.isArray(book.Tags) ? book.Tags.slice(0, 3) : []
-	const escapeHtml = (value) =>
-		String(value || '')
-			.replace(/&/g, '&amp;')
-			.replace(/</g, '&lt;')
-			.replace(/>/g, '&gt;')
-			.replace(/"/g, '&quot;')
-			.replace(/'/g, '&#39;')
 
 	return `
-		<article class="book-card">
+		<article class="book-card" data-book-id="${escapeHtml(book.id)}">
 			<div class="image-container">
 				<img class="book-cover" src="/${encodeURI(image.replace(/^\//, ''))}" alt="${escapeHtml(book.Name)}">
 			</div>
@@ -43,6 +92,7 @@ function renderBookCard(book) {
 				<div class="book-badges">
 					${tags.map((tag) => `<span class="badge">${escapeHtml(tag)}</span>`).join('')}
 				</div>
+				<div class="book-admin-actions"></div>
 			</div>
 		</article>
 	`
@@ -60,7 +110,7 @@ function updateAuthUI() {
 }
 
 function apiRequest(url, options = {}) {
-	const session = getSession()
+	const session = appState.session || getSession()
 	const ajaxOptions = {
 		url,
 		method: options.method || 'GET',
@@ -85,6 +135,82 @@ function toggleCatalogSection(show) {
 		return
 	}
 	catalog.toggleClass('is-hidden', !show)
+}
+
+function renderAdminDeleteButton(bookId) {
+	return `<button class="delete-button js-delete-book" type="button" data-book-id="${escapeHtml(bookId)}">Delete</button>`
+}
+
+function decorateAdminControls() {
+	const adminPanel = $('#admin-book-panel')
+	adminPanel.toggleClass('is-hidden', !isAdmin())
+
+	$('.book-card[data-book-id]').each(function decorateCard() {
+		const card = $(this)
+		const actions = card.find('.book-admin-actions')
+		if (!actions.length) {
+			return
+		}
+		actions.empty()
+		if (isAdmin()) {
+			actions.append(renderAdminDeleteButton(card.data('book-id')))
+		}
+	})
+}
+
+function bindAdminBookForm() {
+	const form = $('#admin-book-form')
+	if (!form.length) {
+		return
+	}
+
+	form.on('submit', function handleAddBook(event) {
+		event.preventDefault()
+		if (!isAdmin()) {
+			window.alert('Admin access required.')
+			return
+		}
+
+		const payload = Object.fromEntries(new FormData(this).entries())
+		payload.Tags = String(payload.Tags || '')
+			.split(',')
+			.map((tag) => tag.trim())
+			.filter(Boolean)
+
+		apiRequest('/api/books', {
+			method: 'POST',
+			contentType: 'application/json',
+			data: JSON.stringify({ book: payload }),
+		})
+			.done(() => {
+				window.location.reload()
+			})
+			.fail((xhr) => {
+				window.alert(xhr.responseJSON?.error || 'Could not add book.')
+			})
+	})
+}
+
+function bindDeleteButtons() {
+	$(document).on('click', '.js-delete-book', function handleDeleteBook() {
+		if (!isAdmin()) {
+			window.alert('Admin access required.')
+			return
+		}
+
+		const bookId = $(this).data('book-id')
+		if (!bookId || !window.confirm('Delete this book?')) {
+			return
+		}
+
+		apiRequest(`/api/books/${encodeURIComponent(bookId)}`, { method: 'DELETE' })
+			.done(() => {
+				window.location.reload()
+			})
+			.fail((xhr) => {
+				window.alert(xhr.responseJSON?.error || 'Could not delete book.')
+			})
+	})
 }
 
 function renderSearchResults(payload) {
@@ -188,8 +314,13 @@ function enhanceBooksPage() {
 }
 
 $(function initializeApp() {
-	updateAuthUI()
-	bindSearch()
-	bindLogout()
-	enhanceBooksPage()
+	refreshSession().finally(() => {
+		updateAuthUI()
+		decorateAdminControls()
+		bindSearch()
+		bindLogout()
+		bindAdminBookForm()
+		bindDeleteButtons()
+		enhanceBooksPage()
+	})
 })

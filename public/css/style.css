@@ -342,6 +342,7 @@ img {
 
 .book-description {
   display: -webkit-box;
+  line-clamp: 3;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
@@ -457,6 +458,45 @@ img {
   display: flex;
   gap: 0.6rem;
   flex-wrap: wrap;
+}
+
+.admin-panel {
+  margin: 1.5rem 0 2rem;
+  padding: 1.5rem;
+  border: 1px dashed var(--accent);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.admin-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.85rem;
+  margin-top: 1rem;
+}
+
+.admin-form input,
+.admin-form textarea {
+  width: 100%;
+  padding: 0.65rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font: inherit;
+  background: var(--surface-strong);
+  color: var(--ink);
+}
+
+.admin-form textarea {
+  grid-column: 1 / -1;
+  resize: vertical;
+  min-height: 110px;
+}
+
+.book-admin-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.75rem;
 }
 
 .author-books-container {

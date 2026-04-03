@@ -12,13 +12,36 @@
       <p class="lede page-copy">Search the catalog, filter by topic, and browse the full collection.</p>
     </section>
 
+    <section class="admin-panel is-hidden" id="admin-book-panel">
+      <div class="filter-header">
+        <div>
+          <h2 class="section-title">Admin book tools</h2>
+          <p class="filter-count">Only admin users can add or delete books.</p>
+        </div>
+      </div>
+      <form class="admin-form" id="admin-book-form">
+        <input name="Name" type="text" placeholder="Book title" required>
+        <input name="Author" type="text" placeholder="Author" required>
+        <input name="Publisher" type="text" placeholder="Publisher">
+        <input name="Category" type="text" placeholder="Category">
+        <input name="Pages" type="number" placeholder="Pages" min="1">
+        <input name="Rating" type="number" placeholder="Rating" min="0" max="5" step="0.1">
+        <input name="AvailableCopies" type="number" placeholder="Available copies" min="0">
+        <input name="TotalCopies" type="number" placeholder="Total copies" min="1">
+        <input name="img" type="text" placeholder="Image path, e.g. images/book.jpg">
+        <textarea name="Description" rows="3" placeholder="Description"></textarea>
+        <input name="Tags" type="text" placeholder="Tags, comma separated">
+        <button class="primary-button" type="submit">Add book</button>
+      </form>
+    </section>
+
     <div id="search-results"></div>
 
     <section id="catalog-section">
       <h2 class="section-title"><%= query ? 'All books' : 'Catalog' %></h2>
       <div class="books" id="books-grid">
         <% (books || []).forEach((book) => { %>
-          <article class="book-card">
+          <article class="book-card" data-book-id="<%= book.id %>">
             <div class="image-container">
               <img class="book-cover" src="/<%= (book.img || 'images/library.png').replace(/^\//, '') %>" alt="<%= book.Name %>">
             </div>
@@ -32,6 +55,7 @@
               </div>
               <p class="book-detail">Publisher: <%= book.Publisher || 'Unknown' %></p>
               <p class="book-description"><%= book.Description || '' %></p>
+              <div class="book-admin-actions"></div>
             </div>
           </article>
         <% }) %>
