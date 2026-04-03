@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <%- include('../partials/head', { pageTitle }) %>
+</head>
+<body>
+  <%- include('../partials/navbar', { activePage, showSearch: false }) %>
+
+  <main class="content">
+    <section class="welcome-section">
+      <h1 class="page-title">Sign up</h1>
+      <p class="lede page-copy">Create a local account now; MongoDB-backed user management can be added later without changing the UI.</p>
+    </section>
+
+    <section class="auth-shell">
+      <form class="signup-container" id="signup-form">
+        <h2>Create account</h2>
+        <p class="auth-message" id="auth-message"></p>
+        <div class="signup-form">
+          <input type="text" placeholder="Username" id="username" required>
+        </div>
+        <div class="signup-form">
+          <input type="password" placeholder="Password" id="password" required>
+        </div>
+        <div class="signup-form">
+          <input type="password" placeholder="Confirm password" id="confirm-password" required>
+        </div>
+        <div class="signup-form">
+          <button type="submit" id="Signup-button" class="primary-button">Create account</button>
+        </div>
+        <p class="text">Already have an account? <a href="/login">Log in</a></p>
+      </form>
+    </section>
+  </main>
+
+  <%- include('../partials/footer') %>
+  <script src="/js/auth.js"></script>
+  <script src="/js/main.js"></script>
+</body>
+</html>

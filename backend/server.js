@@ -2,33 +2,34 @@ const express = require('express')
 const path = require('node:path')
 const bcrypt = require('bcryptjs')
 const {
-  addBook,
   createSession,
   createUser,
-  deleteBook,
   deleteSession,
   findSession,
   findUser,
   getBooks,
   isPasswordHashed,
-  updateBook,
   updateUserPassword,
-} = require('../lib/store')
-const { searchBooks } = require('../lib/search')
+} = require('./src/services/libraryStore')
+const { searchBooks } = require('./src/services/searchService')
 
 const app = express()
 const PORT = Number(process.env.PORT) || 3000
 const HOST = process.env.HOST || '127.0.0.1'
 
+app.set('view engine', 'ejs')
+app.set('views', path.join(process.cwd(), 'views'))
+
 app.use(express.json())
-app.use(express.static(process.cwd()))
+app.use(express.urlencoded({ extended: true }))
+app.use(express.static(path.join(process.cwd(), 'public')))
 
 function getToken(request) {
   const authHeader = request.header('authorization') || ''
   if (authHeader.startsWith('Bearer ')) {
     return authHeader.slice(7)
   }
-  return request.header('x-library-token')
+  return request.header('x-library-token') || request.body?.token
 }
 
 async function requireSession(request, response) {
@@ -53,19 +54,62 @@ async function requireSession(request, response) {
   return { user, token }
 }
 
-async function requireAdmin(request, response) {
-  const session = await requireSession(request, response)
-  if (!session) {
-    return null
-  }
+app.get('/', async (_request, response) => {
+  const books = await getBooks()
+  response.render('pages/index', {
+    activePage: 'home',
+    pageTitle: 'Library',
+    books: books.slice(0, 6),
+    featuredBooks: books.slice(0, 6),
+  })
+})
 
-  if (session.user.role !== 'admin') {
-    response.status(403).json({ error: 'Admin access required.' })
-    return null
-  }
+app.get('/books', async (request, response) => {
+  const books = await getBooks()
+  const query = String(request.query.q || '').trim()
+  const searchResult = query ? searchBooks(query, books) : null
+  response.render('pages/books', {
+    activePage: 'books',
+    pageTitle: 'Books',
+    books: searchResult?.results || books,
+    query,
+    searchResult,
+  })
+})
 
-  return session.user
-}
+app.get('/genres', async (_request, response) => {
+  const books = await getBooks()
+  const genres = Array.from(new Set(books.map((book) => book.Category || 'Unknown'))).sort()
+  response.render('pages/genres', {
+    activePage: 'genres',
+    pageTitle: 'Genres',
+    genres,
+    books,
+  })
+})
+
+app.get('/publishers', async (_request, response) => {
+  const books = await getBooks()
+  const publishers = Array.from(new Set(books.map((book) => book.Publisher || 'Unknown'))).sort()
+  response.render('pages/publishers', {
+    activePage: 'publishers',
+    pageTitle: 'Publishers',
+    publishers,
+    books,
+  })
+})
+
+app.get('/contacts', (_request, response) => {
+  response.render('pages/contacts', { activePage: 'contacts', pageTitle: 'Contacts' })
+})
+
+app.get('/login', (_request, response) => {
+  response.render('pages/login', { activePage: 'login', pageTitle: 'Login' })
+})
+
+app.get('/signup', (_request, response) => {
+  response.render('pages/signup', { activePage: 'signup', pageTitle: 'Sign up' })
+})
 
 app.get('/api/books', async (_request, response) => {
   const books = await getBooks()
@@ -74,8 +118,7 @@ app.get('/api/books', async (_request, response) => {
 
 app.get('/api/search', async (request, response) => {
   const books = await getBooks()
-  const result = searchBooks(request.query.q || '', books)
-  response.json(result)
+  response.json(searchBooks(request.query.q || '', books))
 })
 
 app.post('/api/login', async (request, response) => {
@@ -137,51 +180,24 @@ app.post('/api/signup', async (request, response) => {
   })
 })
 
-app.post('/api/books', async (request, response) => {
-  const admin = await requireAdmin(request, response)
-  if (!admin) {
-    return
-  }
-
-  const { book } = request.body || {}
-  const created = await addBook(book || {})
-  response.status(201).json({ book: created })
-})
-
-app.put('/api/books/:id', async (request, response) => {
-  const admin = await requireAdmin(request, response)
-  if (!admin) {
-    return
-  }
-
-  const { book } = request.body || {}
-  const updated = await updateBook(request.params.id, book || {})
-  if (!updated) {
-    response.status(404).json({ error: 'Book not found.' })
-    return
-  }
-
-  response.json({ book: updated })
-})
-
-app.delete('/api/books/:id', async (request, response) => {
-  const admin = await requireAdmin(request, response)
-  if (!admin) {
-    return
-  }
-
-  await deleteBook(request.params.id)
-  response.status(204).end()
-})
-
 app.post('/api/logout', async (request, response) => {
   const token = getToken(request)
   await deleteSession(token)
   response.status(204).end()
 })
 
-app.get('/', (_request, response) => {
-  response.sendFile(path.join(process.cwd(), 'Index.html'))
+app.get('/api/session', async (request, response) => {
+  const session = await requireSession(request, response)
+  if (!session) {
+    return
+  }
+
+  response.json({
+    user: {
+      username: session.user.username,
+      role: session.user.role,
+    },
+  })
 })
 
 if (require.main === module) {

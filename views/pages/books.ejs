@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <%- include('../partials/head', { pageTitle }) %>
+</head>
+<body>
+  <%- include('../partials/navbar', { activePage, query }) %>
+
+  <main class="content">
+    <section class="welcome-section">
+      <h1 class="page-title">Books</h1>
+      <p class="lede page-copy">Search the catalog, filter by topic, and browse the full collection.</p>
+    </section>
+
+    <div id="search-results"></div>
+
+    <section>
+      <h2 class="section-title"><%= query ? 'All books' : 'Catalog' %></h2>
+      <div class="books" id="books-grid">
+        <% (books || []).forEach((book) => { %>
+          <article class="book-card">
+            <div class="image-container">
+              <img class="book-cover" src="/<%= (book.img || 'images/library.png').replace(/^\//, '') %>" alt="<%= book.Name %>">
+            </div>
+            <div class="book-body">
+              <h3 class="book-title"><%= book.Name %></h3>
+              <p class="book-author">by <%= book.Author %></p>
+              <div class="book-badges">
+                <span class="badge"><%= book.Category || 'Unknown' %></span>
+                <span class="badge">★ <%= book.Rating || 0 %></span>
+                <span class="badge"><%= book.AvailableCopies || 0 %> available</span>
+              </div>
+              <p class="book-detail">Publisher: <%= book.Publisher || 'Unknown' %></p>
+              <p class="book-description"><%= book.Description || '' %></p>
+            </div>
+          </article>
+        <% }) %>
+      </div>
+    </section>
+  </main>
+
+  <%- include('../partials/footer') %>
+  <script src="/js/main.js"></script>
+</body>
+</html>

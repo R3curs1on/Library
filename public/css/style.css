@@ -274,6 +274,7 @@ img {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 16px;
+  
   padding: 1rem;
   display: grid;
   gap: 0.8rem;
@@ -286,19 +287,18 @@ img {
 }
 
 .image-container {
+  aspect-ratio: 2 / 3;
   border-radius: 12px;
   overflow: hidden;
   background: var(--surface-strong);
+  display: grid;
+  place-items: center;
 }
 
 .book-cover {
   width: 100%;
-  height: 260px;
-  object-fit: cover;
-}
-
-.book-card--compact .book-cover {
-  height: 190px;
+  height: 100%;
+  object-fit: contain;
 }
 
 .book-title {
@@ -350,6 +350,53 @@ img {
 .book-card--compact .book-detail,
 .book-card--compact .book-description {
   display: none;
+}
+
+.book-grid-inline {
+  margin-top: 1rem;
+}
+
+.page-copy {
+  max-width: 68ch;
+  color: var(--muted);
+}
+
+.info-grid {
+  margin-top: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.info-card {
+  padding: 1.2rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+}
+
+.info-card h3 {
+  margin-top: 0;
+}
+
+.auth-shell {
+  max-width: 440px;
+  margin: 2rem auto 0;
+}
+
+.auth-message {
+  min-height: 1.5rem;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.auth-message.is-error {
+  color: #a94b3d;
+}
+
+.auth-message.is-success {
+  color: #3f7a5f;
 }
 
 .search-results-panel {
@@ -434,6 +481,14 @@ img {
   padding: 1.5rem;
   text-align: center;
   color: var(--muted);
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 0.75rem;
 }
 
 .login-container,

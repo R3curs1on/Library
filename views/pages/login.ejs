@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <%- include('../partials/head', { pageTitle }) %>
+</head>
+<body>
+  <%- include('../partials/navbar', { activePage, showSearch: false }) %>
+
+  <main class="content">
+    <section class="welcome-section">
+      <h1 class="page-title">Log in</h1>
+      <p class="lede page-copy">Access admin tools and keep your collection personalized.</p>
+    </section>
+
+    <section class="auth-shell">
+      <form class="login-container" id="login-form">
+        <h2>Welcome back</h2>
+        <p class="auth-message" id="auth-message"></p>
+        <div class="login-form">
+          <input type="text" placeholder="Username" id="username" required>
+        </div>
+        <div class="login-form">
+          <input type="password" placeholder="Password" id="password" required>
+        </div>
+        <div class="login-form">
+          <button type="submit" id="login-button" class="primary-button">Log in</button>
+        </div>
+        <p class="text">New here? <a href="/signup">Create account</a></p>
+      </form>
+    </section>
+  </main>
+
+  <%- include('../partials/footer') %>
+  <script src="/js/auth.js"></script>
+  <script src="/js/main.js"></script>
+</body>
+</html>

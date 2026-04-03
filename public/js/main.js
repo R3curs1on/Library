@@ -1,0 +1,180 @@
+function getSession() {
+	try {
+		return JSON.parse(localStorage.getItem('librarySession') || 'null')
+	} catch {
+		return null
+	}
+}
+
+function setSession(session) {
+	if (session) {
+		localStorage.setItem('librarySession', JSON.stringify(session))
+	} else {
+		localStorage.removeItem('librarySession')
+	}
+}
+
+function renderBookCard(book) {
+	const image = book.img || 'https://placehold.co/300x420?text=No+Image'
+	const tags = Array.isArray(book.Tags) ? book.Tags.slice(0, 3) : []
+	const escapeHtml = (value) =>
+		String(value || '')
+			.replace(/&/g, '&amp;')
+			.replace(/</g, '&lt;')
+			.replace(/>/g, '&gt;')
+			.replace(/"/g, '&quot;')
+			.replace(/'/g, '&#39;')
+
+	return `
+		<article class="book-card">
+			<div class="image-container">
+				<img class="book-cover" src="/${encodeURI(image.replace(/^\//, ''))}" alt="${escapeHtml(book.Name)}">
+			</div>
+			<div class="book-body">
+				<h3 class="book-title">${escapeHtml(book.Name)}</h3>
+				<p class="book-author">by ${escapeHtml(book.Author)}</p>
+				<div class="book-badges">
+					<span class="badge">${escapeHtml(book.Category || 'Unknown')}</span>
+					<span class="badge">★ ${escapeHtml(book.Rating || 0)}</span>
+					<span class="badge">${escapeHtml(book.AvailableCopies || 0)} available</span>
+				</div>
+				<p class="book-detail">Publisher: ${escapeHtml(book.Publisher || 'Unknown')}</p>
+				<p class="book-description">${escapeHtml(book.Description || '')}</p>
+				<div class="book-badges">
+					${tags.map((tag) => `<span class="badge">${escapeHtml(tag)}</span>`).join('')}
+				</div>
+			</div>
+		</article>
+	`
+}
+
+function updateAuthUI() {
+	const session = getSession()
+	const loggedIn = Boolean(session?.token)
+
+	$('[data-auth="login"]').toggleClass('is-hidden', loggedIn)
+	$('[data-auth="logout"]').toggleClass('is-hidden', !loggedIn)
+	$('[data-auth="user"]').toggleClass('is-hidden', !loggedIn).text(
+		loggedIn ? `Signed in as ${session.user?.username || 'member'}` : '',
+	)
+}
+
+function apiRequest(url, options = {}) {
+	const session = getSession()
+	const ajaxOptions = {
+		url,
+		method: options.method || 'GET',
+		data: options.data || undefined,
+		contentType: options.contentType,
+		dataType: 'json',
+		headers: {
+			...(options.headers || {}),
+		},
+	}
+
+	if (session?.token) {
+		ajaxOptions.headers.Authorization = `Bearer ${session.token}`
+	}
+
+	return $.ajax(ajaxOptions)
+}
+
+function renderSearchResults(payload) {
+	const container = $('#search-results')
+	if (!container.length) {
+		return
+	}
+
+	const results = payload?.results || []
+	const suggestions = payload?.suggestions || []
+
+	if (!results.length) {
+		container.html(`
+			<div class="search-results-panel">
+				<p class="text">No books matched your search.</p>
+			</div>
+		`)
+		return
+	}
+
+	container.html(`
+		<div class="search-results-panel">
+			<div class="filter-header">
+				<h2 class="section-title">Search results</h2>
+				<p class="filter-count">${results.length} result(s)</p>
+			</div>
+			${suggestions.length ? `<div class="suggestions-row">${suggestions.map((item) => `<button class="suggestion-chip" type="button" data-suggestion="${String(item.label).replace(/"/g, '&quot;')}">${String(item.label).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</button>`).join('')}</div>` : ''}
+			<div class="books">${results.map(renderBookCard).join('')}</div>
+		</div>
+	`)
+}
+
+function bindSearch() {
+	const form = $('.js-search-form')
+	if (!form.length) {
+		return
+	}
+
+	form.on('submit', function handleSearch(event) {
+		event.preventDefault()
+		const query = String($('#search-input').val() || '').trim()
+
+		if (!query) {
+			const booksGrid = $('#books-grid')
+			if (booksGrid.length) {
+				$('#search-results').empty()
+			}
+			return
+		}
+
+		apiRequest(`/api/search?q=${encodeURIComponent(query)}`)
+			.done((payload) => {
+				if ($('#search-results').length) {
+					renderSearchResults(payload)
+					return
+				}
+
+				window.location.href = `/books?q=${encodeURIComponent(query)}`
+			})
+			.fail((xhr) => {
+				window.alert(xhr.responseJSON?.error || 'Search failed.')
+			})
+	})
+
+	$(document).on('click', '[data-suggestion]', function handleSuggestion() {
+		$('#search-input').val($(this).data('suggestion'))
+		form.trigger('submit')
+	})
+}
+
+function bindLogout() {
+	$(document).on('click', '[data-auth="logout"]', function handleLogout() {
+		apiRequest('/api/logout', { method: 'POST' })
+			.always(() => {
+				setSession(null)
+				updateAuthUI()
+				window.location.href = '/login'
+			})
+	})
+}
+
+function enhanceBooksPage() {
+	const booksGrid = $('#books-grid')
+	if (!booksGrid.length) {
+		return
+	}
+
+	const query = new URLSearchParams(window.location.search).get('q') || ''
+	if (query) {
+		apiRequest(`/api/search?q=${encodeURIComponent(query)}`).done((payload) => {
+			renderSearchResults(payload)
+		})
+	}
+}
+
+$(function initializeApp() {
+	updateAuthUI()
+	bindSearch()
+	bindLogout()
+	enhanceBooksPage()
+})

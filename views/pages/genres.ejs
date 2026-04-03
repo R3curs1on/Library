@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <%- include('../partials/head', { pageTitle }) %>
+</head>
+<body>
+  <%- include('../partials/navbar', { activePage }) %>
+
+  <main class="content">
+    <section class="welcome-section">
+      <h1 class="page-title">Genres</h1>
+      <p class="lede page-copy">A quick way to browse the catalog by mood and category.</p>
+    </section>
+
+    <section class="info-grid">
+      <% (genres || []).forEach((genre) => { %>
+        <article class="info-card">
+          <h3><%= genre %></h3>
+          <p><%= (books || []).filter((book) => (book.Category || 'Unknown') === genre).length %> book(s) in this category.</p>
+          <a class="secondary-button" href="/books?q=<%= encodeURIComponent(genre) %>">View books</a>
+        </article>
+      <% }) %>
+    </section>
+  </main>
+
+  <%- include('../partials/footer') %>
+  <script src="/js/main.js"></script>
+</body>
+</html>

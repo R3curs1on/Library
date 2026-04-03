@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <%- include('../partials/head', { pageTitle }) %>
+</head>
+<body>
+  <%- include('../partials/navbar.ejs', { activePage, query: '' }) %>
+  
+  <main class="content">
+    <section class="welcome-section">
+      <h1 class="page-title">A quieter way to explore books.</h1>
+      <p class="lede page-copy">Browse a curated catalog, discover new authors, and search by mood, genre, or tag. This rebuild keeps the interface calm and server-rendered with EJS, while jQuery powers live interactions.</p>
+      <div class="hero-actions">
+        <a class="primary-button" href="/books">Browse collection</a>
+        <a class="secondary-button" href="/genres">Explore genres</a>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">Featured books</h2>
+      <div class="books book-grid-inline" id="books-grid">
+        <% (featuredBooks || books || []).forEach((book) => { %>
+          <article class="book-card">
+            <div class="image-container">
+              <img class="book-cover" src="/<%= (book.img || 'images/library.png').replace(/^\//, '') %>" alt="<%= book.Name %>">
+            </div>
+            <div class="book-body">
+              <h3 class="book-title"><%= book.Name %></h3>
+              <p class="book-author">by <%= book.Author %></p>
+              <div class="book-badges">
+                <span class="badge"><%= book.Category || 'Unknown' %></span>
+                <span class="badge">★ <%= book.Rating || 0 %></span>
+              </div>
+              <p class="book-description"><%= book.Description || '' %></p>
+            </div>
+          </article>
+        <% }) %>
+      </div>
+    </section>
+  </main>
+
+  <%- include('../partials/footer') %>
+  <script src="/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<header class="navbar-header">
+  <nav class="navbar" id="navbar">
+    <a href="/" aria-label="Go to home">
+      <img src="/images/library.png" alt="Library logo" class="logo">
+    </a>
+    <div class="nav-links">
+      <a href="/" class="<%= activePage === 'home' ? 'is-active' : '' %>">Home</a>
+      <a href="/books" class="<%= activePage === 'books' ? 'is-active' : '' %>">Books</a>
+      <a href="/publishers" class="<%= activePage === 'publishers' ? 'is-active' : '' %>">Authors/Publishers</a>
+      <a href="/genres" class="<%= activePage === 'genres' ? 'is-active' : '' %>">Genres</a>
+      <a href="/contacts" class="<%= activePage === 'contacts' ? 'is-active' : '' %>">Contacts</a>
+      <a href="/login" data-auth="login" class="<%= activePage === 'login' ? 'is-active' : '' %>">Login</a>
+    </div>
+    <div class="nav-actions">
+      <form class="search-bar js-search-form <%= (typeof showSearch !== 'undefined' && showSearch === false) ? 'is-hidden' : '' %>" id="search-bar" role="search">
+        <input type="text" placeholder="Search by title, author, or tag" id="search-input" name="q" value="<%= typeof query === 'string' ? query : '' %>">
+        <button type="submit" id="search-button">Search</button>
+      </form>
+      <span class="user-badge is-hidden" data-auth="user"></span>
+      <button class="secondary-button logout-button is-hidden" id="logout-button" data-auth="logout" type="button">Logout</button>
+    </div>
+  </nav>
+</header>
