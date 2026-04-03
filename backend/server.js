@@ -1,4 +1,6 @@
-require('dotenv').config()
+if (!process.env.RENDER && process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
 
 const express = require('express')
 const path = require('node:path')
@@ -21,7 +23,8 @@ const { searchBooks } = require('./src/services/searchService')
 
 const app = express()
 const PORT = Number(process.env.PORT) || 3000
-const HOST = process.env.HOST || '0.0.0.0'
+const IS_RENDER = Boolean(process.env.RENDER || process.env.RENDER_EXTERNAL_URL)
+const HOST = IS_RENDER ? '0.0.0.0' : (process.env.HOST || '127.0.0.1')
 
 app.set('view engine', 'ejs')
 app.set('views', path.join(process.cwd(), 'views'))

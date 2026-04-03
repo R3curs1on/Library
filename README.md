@@ -17,7 +17,7 @@ npm run dev
 Open `http://127.0.0.1:3000`.
 
 ## Configuration
-- `MONGODB_URI`: MongoDB connection string (loaded from `.env` locally; replace with Atlas at deployment)
+- `MONGODB_URI`: MongoDB connection string (loaded from `.env` locally; replace with your Atlas `mongodb+srv://...` URI at deployment)
 - `MONGODB_DB_NAME`: database name (defaults to `library_app`)
 - `PORT`: server port for hosting platforms (optional)
 - `HOST`: defaults to `127.0.0.1` locally; set `0.0.0.0` on hosts if needed
@@ -25,6 +25,7 @@ Open `http://127.0.0.1:3000`.
 - `ADMIN_PASSWORD`: default seeded admin password (optional)
 
 If `MONGODB_URI` is missing, the server will fail to start.
+If your Atlas password contains reserved characters like `@`, `:`, `/`, or `#`, URL-encode it before pasting the URI into `.env`.
 
 ## Demo admin account
 By default, first startup seeds:
