@@ -14,7 +14,7 @@
 
     <div id="search-results"></div>
 
-    <section>
+    <section id="catalog-section">
       <h2 class="section-title"><%= query ? 'All books' : 'Catalog' %></h2>
       <div class="books" id="books-grid">
         <% (books || []).forEach((book) => { %>

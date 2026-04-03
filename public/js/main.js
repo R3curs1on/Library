@@ -79,6 +79,14 @@ function apiRequest(url, options = {}) {
 	return $.ajax(ajaxOptions)
 }
 
+function toggleCatalogSection(show) {
+	const catalog = $('#catalog-section')
+	if (!catalog.length) {
+		return
+	}
+	catalog.toggleClass('is-hidden', !show)
+}
+
 function renderSearchResults(payload) {
 	const container = $('#search-results')
 	if (!container.length) {
@@ -89,6 +97,7 @@ function renderSearchResults(payload) {
 	const suggestions = payload?.suggestions || []
 
 	if (!results.length) {
+		toggleCatalogSection(false)
 		container.html(`
 			<div class="search-results-panel">
 				<p class="text">No books matched your search.</p>
@@ -96,6 +105,8 @@ function renderSearchResults(payload) {
 		`)
 		return
 	}
+
+	toggleCatalogSection(false)
 
 	container.html(`
 		<div class="search-results-panel">
@@ -123,6 +134,7 @@ function bindSearch() {
 			const booksGrid = $('#books-grid')
 			if (booksGrid.length) {
 				$('#search-results').empty()
+				toggleCatalogSection(true)
 			}
 			return
 		}
@@ -166,9 +178,12 @@ function enhanceBooksPage() {
 
 	const query = new URLSearchParams(window.location.search).get('q') || ''
 	if (query) {
+		toggleCatalogSection(false)
 		apiRequest(`/api/search?q=${encodeURIComponent(query)}`).done((payload) => {
 			renderSearchResults(payload)
 		})
+	} else {
+		toggleCatalogSection(true)
 	}
 }
 
